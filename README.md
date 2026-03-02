@@ -2,7 +2,7 @@
 
 **From a raw CSV to a validated, reasoned knowledge graph in 5 minutes.**
 
-This demo walks you through the [SDC Agents](https://github.com/Axius-SDC/SDC_Agents) and [sdcvalidator](https://pypi.org/project/sdcvalidator/) pipeline: introspect a CSV, map columns to SDC4 schema components, generate XML instances, validate them, and load RDF triples into GraphDB with OWL 2 RL reasoning.
+This demo walks you through the [SDC Agents](https://pypi.org/project/sdc-agents/) and [sdcvalidator](https://pypi.org/project/sdcvalidator/) pipeline: introspect a CSV, map columns to SDC4 schema components, generate XML instances, validate them, and load RDF triples into GraphDB with OWL 2 RL reasoning.
 
 ## What You'll Get
 
@@ -21,7 +21,7 @@ This demo walks you through the [SDC Agents](https://github.com/Axius-SDC/SDC_Ag
 ### Self-Contained Mode (No Docker/Podman, No SDCStudio)
 
 ```bash
-git clone https://github.com/Axius-SDC/SDC_Agents_Demo.git
+git clone https://github.com/SemanticDataCharter/SDC_Agents_Demo.git
 cd SDC_Agents_Demo
 
 pip install -r requirements.txt
@@ -169,5 +169,5 @@ docker compose logs graphdb    # Check logs
 
 - [Semantic Data Charter](https://semanticdatacharter.com/specs/index.html) — The SDC4 specification
 - [SDCStudio](https://sdcstudio.axius-sdc.com/) — Cloud platform for building SDC4 schemas
-- [SDC Agents](https://github.com/Axius-SDC/SDC_Agents) — The agent toolkit powering this demo
+- [SDC Agents](https://pypi.org/project/sdc-agents/) — The agent toolkit powering this demo
 - [sdcvalidator](https://pypi.org/project/sdcvalidator/) — SDC4 XML schema validation library
