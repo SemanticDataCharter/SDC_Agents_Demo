@@ -1,5 +1,6 @@
 # SDC Agents Demo — GraphDB with OWL 2 RL Reasoning
 # Usage: docker compose up -d
+#   or:  podman compose up -d
 
 services:
   graphdb:

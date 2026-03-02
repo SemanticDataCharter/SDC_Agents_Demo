@@ -14,11 +14,11 @@ This demo walks you through the [SDC Agents](https://github.com/Axius-SDC/SDC_Ag
 ## Prerequisites
 
 - Python 3.11+
-- Docker (only needed for GraphDB — optional with `--skip-graphdb`)
+- [Docker](https://docs.docker.com/engine/install/) or [Podman](https://podman.io/getting-started/installation) (only needed for GraphDB — optional with `--skip-graphdb`)
 
 ## Quick Start
 
-### Self-Contained Mode (No Docker, No SDCStudio)
+### Self-Contained Mode (No Docker/Podman, No SDCStudio)
 
 ```bash
 git clone https://github.com/Axius-SDC/SDC_Agents_Demo.git
@@ -37,6 +37,8 @@ This runs the full pipeline using pre-baked schemas and local validation. No net
 docker compose up -d                  # Start GraphDB (~30s to initialize)
 python demo.py --dataset lab_results  # Process, validate, load triples
 ```
+
+Podman users: substitute `podman compose` for `docker compose` throughout.
 
 Open [http://localhost:7200](http://localhost:7200) to explore the knowledge graph.
 
@@ -154,7 +156,7 @@ pip install sdcvalidator>=4.1.0
 
 **GraphDB not reachable**:
 ```bash
-docker compose up -d
+docker compose up -d           # or: podman compose up -d
 docker compose ps              # Verify healthy
 docker compose logs graphdb    # Check logs
 ```

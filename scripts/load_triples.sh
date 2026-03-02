@@ -25,7 +25,7 @@ until curl -sf "${GRAPHDB_URL}/rest/repositories" > /dev/null 2>&1; do
   elapsed=$((elapsed + 2))
   if [ "$elapsed" -ge "$MAX_WAIT" ]; then
     echo "[!!] GraphDB not reachable after ${MAX_WAIT}s. Is it running?"
-    echo "     Start with: docker compose up -d"
+    echo "     Start with: docker compose up -d  (or: podman compose up -d)"
     exit 1
   fi
 done
