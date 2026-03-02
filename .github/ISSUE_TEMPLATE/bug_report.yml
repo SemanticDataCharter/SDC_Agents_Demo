@@ -1,0 +1,100 @@
+name: Bug Report
+description: Report a bug in the SDC Agents Demo
+labels: ["bug"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for reporting a bug. Please fill out the sections below so we can reproduce and fix the issue.
+
+  - type: input
+    id: python
+    attributes:
+      label: Python version
+      description: Output of `python --version`
+      placeholder: "3.12.x"
+    validations:
+      required: true
+
+  - type: input
+    id: packages
+    attributes:
+      label: Package versions
+      description: Output of `pip show sdc-agents sdcvalidator | grep -E "Name|Version"`
+      placeholder: "sdc-agents 4.0.0, sdcvalidator 4.1.0"
+    validations:
+      required: true
+
+  - type: dropdown
+    id: dataset
+    attributes:
+      label: Which dataset?
+      options:
+        - lab_results
+        - sensor_readings
+        - purchase_orders
+        - All datasets
+        - Not dataset-specific
+    validations:
+      required: true
+
+  - type: dropdown
+    id: step
+    attributes:
+      label: Which pipeline step?
+      options:
+        - Introspect (Step 1)
+        - Schema Resolution (Step 2)
+        - Mapping (Step 3)
+        - Generate (Step 4)
+        - Validate (Step 5)
+        - Load to GraphDB (Step 6)
+        - Docker / Podman setup
+        - Not sure
+    validations:
+      required: true
+
+  - type: textarea
+    id: description
+    attributes:
+      label: What happened?
+      description: A clear description of the bug.
+    validations:
+      required: true
+
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected behavior
+      description: What did you expect to happen?
+    validations:
+      required: true
+
+  - type: textarea
+    id: reproduce
+    attributes:
+      label: Steps to reproduce
+      description: Minimal steps to reproduce the issue.
+      placeholder: |
+        1. `pip install -r requirements.txt`
+        2. `python demo.py --dataset lab_results --skip-graphdb`
+        3. See error ...
+    validations:
+      required: true
+
+  - type: textarea
+    id: logs
+    attributes:
+      label: Error output / logs
+      description: Paste any error messages or tracebacks. Redact credentials.
+      render: text
+
+  - type: dropdown
+    id: mode
+    attributes:
+      label: Mode
+      options:
+        - Self-contained
+        - Live (connected to SDCStudio)
+    validations:
+      required: true
