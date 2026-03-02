@@ -1,0 +1,268 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Minimal SDC4 Reference Model Schema Subset
+  ===========================================================
+  This is a SUBSET of the full SDC4 reference model, providing
+  just enough base types for sdcvalidator to validate the demo
+  schemas in self-contained mode.
+
+  Full reference model: https://semanticdatacharter.com/ns/sdc4/sdc4.xsd
+-->
+<xsd:schema
+  xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+  xmlns:sdc4="https://semanticdatacharter.com/ns/sdc4/"
+  targetNamespace="https://semanticdatacharter.com/ns/sdc4/"
+  xmlns:vc="http://www.w3.org/2007/XMLSchema-versioning"
+  vc:minVersion="1.1">
+
+  <!-- ================================================================== -->
+  <!-- Simple types                                                        -->
+  <!-- ================================================================== -->
+
+  <xsd:simpleType name="lattype">
+    <xsd:restriction base="xsd:decimal">
+      <xsd:minInclusive value="-90"/>
+      <xsd:maxInclusive value="90"/>
+    </xsd:restriction>
+  </xsd:simpleType>
+
+  <xsd:simpleType name="lontype">
+    <xsd:restriction base="xsd:decimal">
+      <xsd:minInclusive value="-180"/>
+      <xsd:maxInclusive value="180"/>
+    </xsd:restriction>
+  </xsd:simpleType>
+
+  <xsd:simpleType name="MagnitudeStatus">
+    <xsd:restriction base="xsd:string">
+      <xsd:enumeration value="equal"/>
+      <xsd:enumeration value="less-than"/>
+      <xsd:enumeration value="greater-than"/>
+      <xsd:enumeration value="less-than-or-equal"/>
+      <xsd:enumeration value="greater-than-or-equal"/>
+      <xsd:enumeration value="approximate"/>
+    </xsd:restriction>
+  </xsd:simpleType>
+
+  <!-- ================================================================== -->
+  <!-- Global elements (substitution group heads)                          -->
+  <!-- ================================================================== -->
+
+  <xsd:element name="ExceptionalValue" type="xsd:string"/>
+  <xsd:element name="ReferenceRange" type="sdc4:ReferenceRangeType"/>
+  <xsd:element name="Participation" type="sdc4:ParticipationType"/>
+
+  <!-- Substitution group heads for data model structure -->
+  <xsd:element name="DM" type="sdc4:DMType" abstract="true"/>
+  <xsd:element name="Item" type="sdc4:ClusterType" abstract="true"/>
+  <xsd:element name="XdAdapter-value" type="sdc4:XdAnyType" abstract="true"/>
+
+  <!-- ================================================================== -->
+  <!-- Reference Range                                                     -->
+  <!-- ================================================================== -->
+
+  <xsd:complexType name="ReferenceRangeType">
+    <xsd:sequence>
+      <xsd:element name="definition" type="xsd:string" minOccurs="0"/>
+      <xsd:element name="is-normal" type="xsd:boolean" minOccurs="0"/>
+    </xsd:sequence>
+  </xsd:complexType>
+
+  <!-- ================================================================== -->
+  <!-- Party and Participation                                             -->
+  <!-- ================================================================== -->
+
+  <xsd:complexType name="PartyType">
+    <xsd:sequence>
+      <xsd:element name="party-name" type="xsd:string" minOccurs="0"/>
+      <xsd:element name="party-id" type="xsd:string" minOccurs="0"/>
+    </xsd:sequence>
+  </xsd:complexType>
+
+  <xsd:complexType name="ParticipationType">
+    <xsd:sequence>
+      <xsd:element name="function" type="xsd:string" minOccurs="0"/>
+      <xsd:element name="performer" type="sdc4:PartyType" minOccurs="0"/>
+    </xsd:sequence>
+  </xsd:complexType>
+
+  <!-- ================================================================== -->
+  <!-- XdAny base type (root of all Xd types)                             -->
+  <!-- ================================================================== -->
+
+  <xsd:complexType name="XdAnyType">
+    <xsd:sequence>
+      <xsd:element maxOccurs="1" minOccurs="1" name="label" type="xsd:string"/>
+      <xsd:element maxOccurs="1" minOccurs="0" name="act" type="xsd:string"/>
+      <xsd:element maxOccurs="1" minOccurs="0" ref="sdc4:ExceptionalValue"/>
+      <xsd:element maxOccurs="1" minOccurs="0" name="vtb" type="xsd:dateTime"/>
+      <xsd:element maxOccurs="1" minOccurs="0" name="vte" type="xsd:dateTime"/>
+      <xsd:element maxOccurs="1" minOccurs="0" name="tr" type="xsd:dateTime"/>
+      <xsd:element maxOccurs="1" minOccurs="0" name="modified" type="xsd:dateTime"/>
+      <xsd:element maxOccurs="1" minOccurs="0" name="latitude" type="sdc4:lattype" nillable="true"/>
+      <xsd:element maxOccurs="1" minOccurs="0" name="longitude" type="sdc4:lontype" nillable="true"/>
+    </xsd:sequence>
+  </xsd:complexType>
+
+  <!-- ================================================================== -->
+  <!-- XdString                                                            -->
+  <!-- ================================================================== -->
+
+  <xsd:complexType name="XdStringType">
+    <xsd:complexContent>
+      <xsd:extension base="sdc4:XdAnyType">
+        <xsd:sequence>
+          <xsd:element maxOccurs="1" minOccurs="0" name="xdstring-value" type="xsd:string"/>
+          <xsd:element maxOccurs="1" minOccurs="0" name="xdstring-language" type="xsd:language"/>
+        </xsd:sequence>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+
+  <!-- ================================================================== -->
+  <!-- XdBoolean                                                           -->
+  <!-- ================================================================== -->
+
+  <xsd:complexType name="XdBooleanType">
+    <xsd:complexContent>
+      <xsd:extension base="sdc4:XdAnyType">
+        <xsd:sequence>
+          <xsd:element maxOccurs="1" minOccurs="0" name="xdboolean-value" type="xsd:boolean"/>
+        </xsd:sequence>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+
+  <!-- ================================================================== -->
+  <!-- XdOrdered (abstract base for ordered types)                         -->
+  <!-- ================================================================== -->
+
+  <xsd:complexType name="XdOrderedType">
+    <xsd:complexContent>
+      <xsd:extension base="sdc4:XdAnyType">
+        <xsd:sequence>
+          <xsd:element maxOccurs="unbounded" minOccurs="0" ref="sdc4:ReferenceRange"/>
+          <xsd:element maxOccurs="1" minOccurs="0" name="normal-status" type="xsd:string"/>
+        </xsd:sequence>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+
+  <!-- ================================================================== -->
+  <!-- XdQuantified (abstract base for quantified types)                   -->
+  <!-- ================================================================== -->
+
+  <xsd:complexType name="XdQuantifiedType">
+    <xsd:complexContent>
+      <xsd:extension base="sdc4:XdOrderedType">
+        <xsd:sequence>
+          <xsd:element maxOccurs="1" minOccurs="0" name="magnitude-status" type="sdc4:MagnitudeStatus"/>
+          <xsd:element maxOccurs="1" minOccurs="0" name="accuracy_margin" type="xsd:decimal"/>
+          <xsd:element maxOccurs="1" minOccurs="0" name="precision_digits" type="xsd:nonNegativeInteger"/>
+        </xsd:sequence>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+
+  <!-- ================================================================== -->
+  <!-- XdCount                                                             -->
+  <!-- ================================================================== -->
+
+  <xsd:complexType name="XdCountType">
+    <xsd:complexContent>
+      <xsd:extension base="sdc4:XdQuantifiedType">
+        <xsd:sequence>
+          <xsd:element maxOccurs="1" minOccurs="0" name="xdcount-value" type="xsd:integer"/>
+          <xsd:element maxOccurs="1" minOccurs="0" name="xdcount-units" type="sdc4:XdStringType"/>
+        </xsd:sequence>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+
+  <!-- ================================================================== -->
+  <!-- XdQuantity                                                          -->
+  <!-- ================================================================== -->
+
+  <xsd:complexType name="XdQuantityType">
+    <xsd:complexContent>
+      <xsd:extension base="sdc4:XdQuantifiedType">
+        <xsd:sequence>
+          <xsd:element maxOccurs="1" minOccurs="0" name="xdquantity-value" type="xsd:decimal"/>
+          <xsd:element maxOccurs="1" minOccurs="0" name="xdquantity-units" type="sdc4:XdStringType"/>
+        </xsd:sequence>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+
+  <!-- ================================================================== -->
+  <!-- XdTemporal                                                          -->
+  <!-- ================================================================== -->
+
+  <xsd:complexType name="XdTemporalType">
+    <xsd:complexContent>
+      <xsd:extension base="sdc4:XdOrderedType">
+        <xsd:choice minOccurs="0" maxOccurs="1">
+          <xsd:element name="xdtemporal-date" type="xsd:date"/>
+          <xsd:element name="xdtemporal-time" type="xsd:time"/>
+          <xsd:element name="xdtemporal-datetime" type="xsd:dateTime"/>
+          <xsd:element name="xdtemporal-duration" type="xsd:duration"/>
+          <xsd:element name="xdtemporal-year" type="xsd:gYear"/>
+          <xsd:element name="xdtemporal-year-month" type="xsd:gYearMonth"/>
+          <xsd:element name="xdtemporal-month" type="xsd:gMonth"/>
+          <xsd:element name="xdtemporal-month-day" type="xsd:gMonthDay"/>
+          <xsd:element name="xdtemporal-day" type="xsd:gDay"/>
+        </xsd:choice>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+
+  <!-- ================================================================== -->
+  <!-- XdLink                                                              -->
+  <!-- ================================================================== -->
+
+  <xsd:complexType name="XdLinkType">
+    <xsd:complexContent>
+      <xsd:extension base="sdc4:XdAnyType">
+        <xsd:sequence>
+          <xsd:element maxOccurs="1" minOccurs="0" name="link" type="xsd:anyURI"/>
+          <xsd:element maxOccurs="1" minOccurs="0" name="relation" type="xsd:string"/>
+        </xsd:sequence>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+
+  <!-- ================================================================== -->
+  <!-- Cluster                                                             -->
+  <!-- ================================================================== -->
+
+  <xsd:complexType name="ClusterType">
+    <xsd:sequence>
+      <xsd:element maxOccurs="1" minOccurs="1" name="label" type="xsd:string"/>
+      <xsd:element maxOccurs="unbounded" minOccurs="0" ref="sdc4:XdAdapter-value"/>
+    </xsd:sequence>
+  </xsd:complexType>
+
+  <!-- ================================================================== -->
+  <!-- Data Model (DM)                                                     -->
+  <!-- ================================================================== -->
+
+  <xsd:complexType name="DMType">
+    <xsd:sequence>
+      <xsd:element maxOccurs="1" minOccurs="1" name="dm-label" type="xsd:string"/>
+      <xsd:element maxOccurs="1" minOccurs="1" name="dm-language" type="xsd:language"/>
+      <xsd:element maxOccurs="1" minOccurs="1" name="dm-encoding" type="xsd:string"/>
+      <xsd:element maxOccurs="1" minOccurs="0" name="creation_timestamp" type="xsd:dateTime"/>
+      <xsd:element maxOccurs="1" minOccurs="0" name="instance_id" type="xsd:string"/>
+      <xsd:element maxOccurs="1" minOccurs="0" name="instance_version" type="xsd:string"/>
+      <xsd:element maxOccurs="1" minOccurs="0" name="current-state" type="xsd:string"/>
+      <xsd:element maxOccurs="1" minOccurs="0" ref="sdc4:Item"/>
+      <xsd:element maxOccurs="1" minOccurs="0" name="subject" type="sdc4:PartyType"/>
+      <xsd:element maxOccurs="unbounded" minOccurs="0" name="provider" type="sdc4:PartyType"/>
+      <xsd:element maxOccurs="unbounded" minOccurs="0" ref="sdc4:Participation"/>
+      <xsd:element maxOccurs="1" minOccurs="0" name="protocol" type="sdc4:XdStringType"/>
+      <xsd:element maxOccurs="1" minOccurs="0" name="workflow" type="sdc4:XdLinkType"/>
+      <xsd:element maxOccurs="1" minOccurs="0" name="acs" type="sdc4:XdLinkType"/>
+    </xsd:sequence>
+  </xsd:complexType>
+
+</xsd:schema>

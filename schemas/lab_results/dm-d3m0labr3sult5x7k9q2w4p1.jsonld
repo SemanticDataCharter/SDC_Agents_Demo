@@ -1,0 +1,68 @@
+{
+  "@context": {
+    "sdc4": "https://semanticdatacharter.com/ns/sdc4/",
+    "sdc4-meta": "https://semanticdatacharter.com/ontology/sdc4-meta/",
+    "rdfs": "http://www.w3.org/2000/01/rdf-schema#",
+    "dc": "http://purl.org/dc/elements/1.1/",
+    "xsd": "http://www.w3.org/2001/XMLSchema#"
+  },
+  "@id": "sdc4:dm-d3m0labr3sult5x7k9q2w4p1",
+  "@type": "sdc4-meta:DataModel",
+  "rdfs:label": "LabResults",
+  "dc:title": "LabResults",
+  "dc:creator": "SDC Agents Demo",
+  "dc:subject": "Clinical laboratory test results",
+  "dc:description": "Data model for clinical laboratory test results including patient identification, test names, quantitative results with units, collection dates, and performing laboratory.",
+  "dc:date": "2025-11-01",
+  "dc:language": "en-US",
+  "sdc4-meta:hasCluster": {
+    "@id": "sdc4:mc-lr00clust3rl4br3sultsd4t",
+    "@type": "sdc4-meta:ModelComponent",
+    "sdc4-meta:isConstrainedByRmComponent": {"@id": "sdc4:ClusterType"},
+    "rdfs:label": "LabResults Data Cluster",
+    "sdc4-meta:hasComponent": [
+      {
+        "@id": "sdc4:mc-lr01pat13nt1dstr1ngv4lu3",
+        "@type": "sdc4-meta:ModelComponent",
+        "sdc4-meta:isConstrainedByRmComponent": {"@id": "sdc4:XdStringType"},
+        "rdfs:label": "Patient ID",
+        "rdfs:comment": "Unique patient identifier in the format P-NNNNN."
+      },
+      {
+        "@id": "sdc4:mc-lr02t3stn4m3str1ngv4lu3x",
+        "@type": "sdc4-meta:ModelComponent",
+        "sdc4-meta:isConstrainedByRmComponent": {"@id": "sdc4:XdStringType"},
+        "rdfs:label": "Test Name",
+        "rdfs:comment": "Name of the clinical laboratory test performed."
+      },
+      {
+        "@id": "sdc4:mc-lr03r3sultv4luqu4nt1tyxz",
+        "@type": "sdc4-meta:ModelComponent",
+        "sdc4-meta:isConstrainedByRmComponent": {"@id": "sdc4:XdQuantityType"},
+        "rdfs:label": "Result Value",
+        "rdfs:comment": "Quantitative result of the laboratory test with associated units of measure."
+      },
+      {
+        "@id": "sdc4:mc-lr04un1t5str1ngv4lu3c0lx",
+        "@type": "sdc4-meta:ModelComponent",
+        "sdc4-meta:isConstrainedByRmComponent": {"@id": "sdc4:XdStringType"},
+        "rdfs:label": "Units",
+        "rdfs:comment": "Unit of measure for the test result."
+      },
+      {
+        "@id": "sdc4:mc-lr05c0ll3ct10nd4t3t3mp0r",
+        "@type": "sdc4-meta:ModelComponent",
+        "sdc4-meta:isConstrainedByRmComponent": {"@id": "sdc4:XdTemporalType"},
+        "rdfs:label": "Collection Date",
+        "rdfs:comment": "Date when the specimen was collected from the patient."
+      },
+      {
+        "@id": "sdc4:mc-lr06l4bn4m3str1ngv4lu3yz",
+        "@type": "sdc4-meta:ModelComponent",
+        "sdc4-meta:isConstrainedByRmComponent": {"@id": "sdc4:XdStringType"},
+        "rdfs:label": "Lab Name",
+        "rdfs:comment": "Name of the laboratory that performed the test."
+      }
+    ]
+  }
+}

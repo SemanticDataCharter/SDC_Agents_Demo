@@ -1,0 +1,26 @@
+patient_id,test_name,result_value,units,collection_date,lab_name
+P-10042,Complete Blood Count,7.2,x10^3/uL,2025-11-03,Quest Diagnostics
+P-10042,Hemoglobin A1c,5.8,%,2025-11-03,Quest Diagnostics
+P-10042,TSH,2.41,mIU/L,2025-11-03,Quest Diagnostics
+P-10087,Glucose Fasting,94,mg/dL,2025-11-05,LabCorp
+P-10087,Total Cholesterol,212,mg/dL,2025-11-05,LabCorp
+P-10087,LDL Cholesterol,138,mg/dL,2025-11-05,LabCorp
+P-10087,HDL Cholesterol,52,mg/dL,2025-11-05,LabCorp
+P-10087,Triglycerides,110,mg/dL,2025-11-05,LabCorp
+P-10115,Creatinine,0.92,mg/dL,2025-11-08,BioReference
+P-10115,BUN,14,mg/dL,2025-11-08,BioReference
+P-10115,Sodium,141,mEq/L,2025-11-08,BioReference
+P-10115,Potassium,4.1,mEq/L,2025-11-08,BioReference
+P-10115,Chloride,102,mEq/L,2025-11-08,BioReference
+P-10203,ALT,28,U/L,2025-11-12,Quest Diagnostics
+P-10203,AST,22,U/L,2025-11-12,Quest Diagnostics
+P-10203,Alkaline Phosphatase,68,U/L,2025-11-12,Quest Diagnostics
+P-10203,Total Bilirubin,0.7,mg/dL,2025-11-12,Quest Diagnostics
+P-10278,Hemoglobin A1c,6.9,%,2025-11-15,LabCorp
+P-10278,Glucose Fasting,126,mg/dL,2025-11-15,LabCorp
+P-10278,Creatinine,1.14,mg/dL,2025-11-15,LabCorp
+P-10301,TSH,0.38,mIU/L,2025-11-18,BioReference
+P-10301,Free T4,1.82,ng/dL,2025-11-18,BioReference
+P-10301,Free T3,3.9,pg/mL,2025-11-18,BioReference
+P-10350,Complete Blood Count,6.8,x10^3/uL,2025-11-20,Quest Diagnostics
+P-10350,Hemoglobin,13.5,g/dL,2025-11-20,Quest Diagnostics

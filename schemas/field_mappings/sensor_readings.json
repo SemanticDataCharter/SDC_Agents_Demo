@@ -1,0 +1,60 @@
+{
+  "datasource": "sensor_readings",
+  "schema_ct_id": "d3m0s3ns0rr34d1ngsx8m5n3q",
+  "mappings": [
+    {
+      "column_name": "sensor_id",
+      "column_type": "string",
+      "component_ct_id": "sr01s3ns0r1dstr1ngv4lu3ab",
+      "component_label": "Sensor ID",
+      "rm_type": "XdString",
+      "value_element": "xdstring-value"
+    },
+    {
+      "column_name": "location",
+      "column_type": "string",
+      "component_ct_id": "sr02l0c4t10nstr1ngv4lu3cd",
+      "component_label": "Location",
+      "rm_type": "XdString",
+      "value_element": "xdstring-value"
+    },
+    {
+      "column_name": "temperature",
+      "column_type": "decimal",
+      "component_ct_id": "sr03t3mp3r4tur3qu4nt1ty3f",
+      "component_label": "Temperature",
+      "rm_type": "XdQuantity",
+      "value_element": "xdquantity-value",
+      "units_element": "xdquantity-units",
+      "units_label": "Temperature Units",
+      "units_default_value": "degC"
+    },
+    {
+      "column_name": "humidity",
+      "column_type": "decimal",
+      "component_ct_id": "sr04hum1d1tyqu4nt1tyv4lu3g",
+      "component_label": "Humidity",
+      "rm_type": "XdQuantity",
+      "value_element": "xdquantity-value",
+      "units_element": "xdquantity-units",
+      "units_label": "Humidity Units",
+      "units_default_value": "%RH"
+    },
+    {
+      "column_name": "reading_time",
+      "column_type": "datetime",
+      "component_ct_id": "sr05r34d1ngt1m3t3mp0r4lhi",
+      "component_label": "Reading Time",
+      "rm_type": "XdTemporal",
+      "value_element": "xdtemporal-datetime"
+    },
+    {
+      "column_name": "status",
+      "column_type": "string",
+      "component_ct_id": "sr06st4tusstr1ngv4lu3x7kjl",
+      "component_label": "Status",
+      "rm_type": "XdString",
+      "value_element": "xdstring-value"
+    }
+  ]
+}

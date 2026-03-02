@@ -1,0 +1,79 @@
+// GQL CREATE statements for SensorReadings data model
+// Load into a property graph database (Neo4j, Amazon Neptune, etc.)
+
+// Data Model node
+CREATE (dm:DataModel {
+  ct_id: "d3m0s3ns0rr34d1ngsx8m5n3q",
+  label: "SensorReadings",
+  creator: "SDC Agents Demo",
+  subject: "Environmental sensor readings",
+  language: "en-US",
+  date: "2025-11-01"
+})
+
+// Cluster node
+CREATE (cluster:Cluster {
+  ct_id: "sr00clust3rs3ns0rr34d1ngs",
+  label: "SensorReadings Data Cluster",
+  rm_type: "ClusterType"
+})
+
+// Component nodes
+CREATE (sensor_id:Component {
+  ct_id: "sr01s3ns0r1dstr1ngv4lu3ab",
+  label: "Sensor ID",
+  rm_type: "XdStringType",
+  description: "Unique sensor identifier (e.g. SNS-A001)."
+})
+
+CREATE (location:Component {
+  ct_id: "sr02l0c4t10nstr1ngv4lu3cd",
+  label: "Location",
+  rm_type: "XdStringType",
+  description: "Hierarchical location path (Building/Floor/Room)."
+})
+
+CREATE (temperature:Component {
+  ct_id: "sr03t3mp3r4tur3qu4nt1ty3f",
+  label: "Temperature",
+  rm_type: "XdQuantityType",
+  description: "Temperature reading in degrees Celsius."
+})
+
+CREATE (humidity:Component {
+  ct_id: "sr04hum1d1tyqu4nt1tyv4lu3g",
+  label: "Humidity",
+  rm_type: "XdQuantityType",
+  description: "Relative humidity percentage."
+})
+
+CREATE (reading_time:Component {
+  ct_id: "sr05r34d1ngt1m3t3mp0r4lhi",
+  label: "Reading Time",
+  rm_type: "XdTemporalType",
+  description: "ISO 8601 timestamp of the sensor reading."
+})
+
+CREATE (status:Component {
+  ct_id: "sr06st4tusstr1ngv4lu3x7kjl",
+  label: "Status",
+  rm_type: "XdStringType",
+  description: "Operational status (normal, warning, critical)."
+})
+
+// Relationships
+CREATE (dm)-[:HAS_CLUSTER]->(cluster)
+CREATE (cluster)-[:HAS_COMPONENT]->(sensor_id)
+CREATE (cluster)-[:HAS_COMPONENT]->(location)
+CREATE (cluster)-[:HAS_COMPONENT]->(temperature)
+CREATE (cluster)-[:HAS_COMPONENT]->(humidity)
+CREATE (cluster)-[:HAS_COMPONENT]->(reading_time)
+CREATE (cluster)-[:HAS_COMPONENT]->(status)
+
+// RM type constraint edges
+CREATE (sensor_id)-[:CONSTRAINED_BY {rm_component: "XdStringType"}]->(sensor_id)
+CREATE (location)-[:CONSTRAINED_BY {rm_component: "XdStringType"}]->(location)
+CREATE (temperature)-[:CONSTRAINED_BY {rm_component: "XdQuantityType"}]->(temperature)
+CREATE (humidity)-[:CONSTRAINED_BY {rm_component: "XdQuantityType"}]->(humidity)
+CREATE (reading_time)-[:CONSTRAINED_BY {rm_component: "XdTemporalType"}]->(reading_time)
+CREATE (status)-[:CONSTRAINED_BY {rm_component: "XdStringType"}]->(status)

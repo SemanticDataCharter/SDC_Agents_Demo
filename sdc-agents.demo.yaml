@@ -1,0 +1,42 @@
+# SDC Agents Demo Configuration
+# ===============================
+# Two modes:
+#   self-contained (default): Uses pre-baked schemas + local sdcvalidator
+#   live: Connects to SDCStudio for catalog/VaaS/assembly APIs
+#
+# For live mode, set SDC_API_KEY in your environment or .env file.
+
+sdcstudio:
+  base_url: "http://localhost:8000"    # Only used in live mode
+  api_key: "${SDC_API_KEY}"
+
+cache:
+  root: ".sdc-cache"
+  ttl_hours: 168
+
+audit:
+  path: "output/audit.jsonl"
+  log_level: "verbose"
+
+datasources:
+  lab_results:
+    type: csv
+    path: "data/lab_results.csv"
+  sensor_readings:
+    type: csv
+    path: "data/sensor_readings.csv"
+  purchase_orders:
+    type: csv
+    path: "data/purchase_orders.csv"
+
+output:
+  directory: "output"
+  formats:
+    - xml
+    - json
+
+destinations:
+  graphdb:
+    type: graphdb
+    endpoint: "http://localhost:7200"
+    repository: "sdc4_demo"

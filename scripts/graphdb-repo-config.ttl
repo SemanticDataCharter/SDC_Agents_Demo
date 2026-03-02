@@ -1,0 +1,24 @@
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix rep:  <http://www.openrdf.org/config/repository#> .
+@prefix sail: <http://www.openrdf.org/config/sail#> .
+@prefix sr:   <http://www.openrdf.org/config/repository/sail#> .
+@prefix owlim: <http://www.ontotext.com/trree/owlim#> .
+
+[] a rep:Repository ;
+   rep:repositoryID "sdc4_demo" ;
+   rdfs:label "SDC4 Demo Knowledge Graph" ;
+   rep:repositoryImpl [
+     rep:repositoryType "graphdb:SailRepository" ;
+     sr:sailImpl [
+       sail:sailType "graphdb:Sail" ;
+       owlim:ruleset "owl2-rl" ;
+       owlim:base-URL "https://semanticdatacharter.com/ns/sdc4/" ;
+       owlim:defaultNS "sdc4=https://semanticdatacharter.com/ns/sdc4/,sdc4-meta=https://semanticdatacharter.com/ontology/sdc4-meta/" ;
+       owlim:imports "" ;
+       owlim:repository-type "file-repository" ;
+       owlim:entity-index-size "10000000" ;
+       owlim:cache-memory "256m" ;
+       owlim:enableContextIndex "true" ;
+       owlim:enablePredicateList "true" ;
+     ]
+   ] .

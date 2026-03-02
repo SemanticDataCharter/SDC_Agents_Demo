@@ -1,0 +1,107 @@
+@prefix sh:        <http://www.w3.org/ns/shacl#> .
+@prefix rdf:       <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs:      <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd:       <http://www.w3.org/2001/XMLSchema#> .
+@prefix sdc4:      <https://semanticdatacharter.com/ns/sdc4/> .
+@prefix sdc4-meta: <https://semanticdatacharter.com/ontology/sdc4-meta/> .
+
+# =============================================================================
+# SHACL Shapes: PurchaseOrders
+# =============================================================================
+
+sdc4:PurchaseOrdersShape
+    a sh:NodeShape ;
+    sh:targetClass sdc4-meta:DataModel ;
+    sh:property [
+        sh:path rdfs:label ;
+        sh:datatype xsd:string ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+    ] ;
+    sh:property [
+        sh:path sdc4-meta:hasCluster ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:node sdc4:PurchaseOrdersClusterShape ;
+    ] .
+
+sdc4:PurchaseOrdersClusterShape
+    a sh:NodeShape ;
+    sh:targetNode sdc4:mc-po00clust3rpurch4s30rd3rs ;
+    sh:property [
+        sh:path sdc4-meta:hasComponent ;
+        sh:minCount 6 ;
+        sh:maxCount 6 ;
+    ] .
+
+sdc4:PONumberShape
+    a sh:NodeShape ;
+    sh:targetNode sdc4:mc-po01p0numb3rstr1ngv4lu3ab ;
+    sh:property [
+        sh:path rdfs:label ;
+        sh:hasValue "PO Number" ;
+    ] ;
+    sh:property [
+        sh:path sdc4-meta:isConstrainedByRmComponent ;
+        sh:hasValue sdc4:XdStringType ;
+    ] .
+
+sdc4:VendorShape
+    a sh:NodeShape ;
+    sh:targetNode sdc4:mc-po02v3nd0rstr1ngv4lu3cd34 ;
+    sh:property [
+        sh:path rdfs:label ;
+        sh:hasValue "Vendor" ;
+    ] ;
+    sh:property [
+        sh:path sdc4-meta:isConstrainedByRmComponent ;
+        sh:hasValue sdc4:XdStringType ;
+    ] .
+
+sdc4:ItemDescriptionShape
+    a sh:NodeShape ;
+    sh:targetNode sdc4:mc-po03d3scr1pt10nstr1ngv4lu ;
+    sh:property [
+        sh:path rdfs:label ;
+        sh:hasValue "Item Description" ;
+    ] ;
+    sh:property [
+        sh:path sdc4-meta:isConstrainedByRmComponent ;
+        sh:hasValue sdc4:XdStringType ;
+    ] .
+
+sdc4:QuantityShape
+    a sh:NodeShape ;
+    sh:targetNode sdc4:mc-po04qu4nt1tyc0untv4lu3efg ;
+    sh:property [
+        sh:path rdfs:label ;
+        sh:hasValue "Quantity" ;
+    ] ;
+    sh:property [
+        sh:path sdc4-meta:isConstrainedByRmComponent ;
+        sh:hasValue sdc4:XdCountType ;
+    ] .
+
+sdc4:UnitPriceShape
+    a sh:NodeShape ;
+    sh:targetNode sdc4:mc-po05un1tpr1c3qu4nt1tyv4lu ;
+    sh:property [
+        sh:path rdfs:label ;
+        sh:hasValue "Unit Price" ;
+    ] ;
+    sh:property [
+        sh:path sdc4-meta:isConstrainedByRmComponent ;
+        sh:hasValue sdc4:XdQuantityType ;
+    ] .
+
+sdc4:OrderDateShape
+    a sh:NodeShape ;
+    sh:targetNode sdc4:mc-po06ord3rd4t3t3mp0r4lhij ;
+    sh:property [
+        sh:path rdfs:label ;
+        sh:hasValue "Order Date" ;
+    ] ;
+    sh:property [
+        sh:path sdc4-meta:isConstrainedByRmComponent ;
+        sh:hasValue sdc4:XdTemporalType ;
+    ] .

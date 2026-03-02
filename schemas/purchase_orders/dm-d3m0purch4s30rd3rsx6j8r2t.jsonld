@@ -1,0 +1,68 @@
+{
+  "@context": {
+    "sdc4": "https://semanticdatacharter.com/ns/sdc4/",
+    "sdc4-meta": "https://semanticdatacharter.com/ontology/sdc4-meta/",
+    "rdfs": "http://www.w3.org/2000/01/rdf-schema#",
+    "dc": "http://purl.org/dc/elements/1.1/",
+    "xsd": "http://www.w3.org/2001/XMLSchema#"
+  },
+  "@id": "sdc4:dm-d3m0purch4s30rd3rsx6j8r2t",
+  "@type": "sdc4-meta:DataModel",
+  "rdfs:label": "PurchaseOrders",
+  "dc:title": "PurchaseOrders",
+  "dc:creator": "SDC Agents Demo",
+  "dc:subject": "Purchase order tracking",
+  "dc:description": "Data model for purchase orders including PO numbers, vendor names, item descriptions, quantities, unit prices, and order dates.",
+  "dc:date": "2025-11-01",
+  "dc:language": "en-US",
+  "sdc4-meta:hasCluster": {
+    "@id": "sdc4:mc-po00clust3rpurch4s30rd3rs",
+    "@type": "sdc4-meta:ModelComponent",
+    "sdc4-meta:isConstrainedByRmComponent": {"@id": "sdc4:ClusterType"},
+    "rdfs:label": "PurchaseOrders Data Cluster",
+    "sdc4-meta:hasComponent": [
+      {
+        "@id": "sdc4:mc-po01p0numb3rstr1ngv4lu3ab",
+        "@type": "sdc4-meta:ModelComponent",
+        "sdc4-meta:isConstrainedByRmComponent": {"@id": "sdc4:XdStringType"},
+        "rdfs:label": "PO Number",
+        "rdfs:comment": "Purchase order number (e.g. PO-2025-0401)."
+      },
+      {
+        "@id": "sdc4:mc-po02v3nd0rstr1ngv4lu3cd34",
+        "@type": "sdc4-meta:ModelComponent",
+        "sdc4-meta:isConstrainedByRmComponent": {"@id": "sdc4:XdStringType"},
+        "rdfs:label": "Vendor",
+        "rdfs:comment": "Name of the supplying vendor."
+      },
+      {
+        "@id": "sdc4:mc-po03d3scr1pt10nstr1ngv4lu",
+        "@type": "sdc4-meta:ModelComponent",
+        "sdc4-meta:isConstrainedByRmComponent": {"@id": "sdc4:XdStringType"},
+        "rdfs:label": "Item Description",
+        "rdfs:comment": "Description of the ordered item."
+      },
+      {
+        "@id": "sdc4:mc-po04qu4nt1tyc0untv4lu3efg",
+        "@type": "sdc4-meta:ModelComponent",
+        "sdc4-meta:isConstrainedByRmComponent": {"@id": "sdc4:XdCountType"},
+        "rdfs:label": "Quantity",
+        "rdfs:comment": "Number of units ordered."
+      },
+      {
+        "@id": "sdc4:mc-po05un1tpr1c3qu4nt1tyv4lu",
+        "@type": "sdc4-meta:ModelComponent",
+        "sdc4-meta:isConstrainedByRmComponent": {"@id": "sdc4:XdQuantityType"},
+        "rdfs:label": "Unit Price",
+        "rdfs:comment": "Price per unit in USD."
+      },
+      {
+        "@id": "sdc4:mc-po06ord3rd4t3t3mp0r4lhij",
+        "@type": "sdc4-meta:ModelComponent",
+        "sdc4-meta:isConstrainedByRmComponent": {"@id": "sdc4:XdTemporalType"},
+        "rdfs:label": "Order Date",
+        "rdfs:comment": "Date the purchase order was placed."
+      }
+    ]
+  }
+}

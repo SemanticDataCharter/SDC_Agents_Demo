@@ -1,0 +1,107 @@
+@prefix sh:        <http://www.w3.org/ns/shacl#> .
+@prefix rdf:       <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs:      <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd:       <http://www.w3.org/2001/XMLSchema#> .
+@prefix sdc4:      <https://semanticdatacharter.com/ns/sdc4/> .
+@prefix sdc4-meta: <https://semanticdatacharter.com/ontology/sdc4-meta/> .
+
+# =============================================================================
+# SHACL Shapes: SensorReadings
+# =============================================================================
+
+sdc4:SensorReadingsShape
+    a sh:NodeShape ;
+    sh:targetClass sdc4-meta:DataModel ;
+    sh:property [
+        sh:path rdfs:label ;
+        sh:datatype xsd:string ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+    ] ;
+    sh:property [
+        sh:path sdc4-meta:hasCluster ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:node sdc4:SensorReadingsClusterShape ;
+    ] .
+
+sdc4:SensorReadingsClusterShape
+    a sh:NodeShape ;
+    sh:targetNode sdc4:mc-sr00clust3rs3ns0rr34d1ngs ;
+    sh:property [
+        sh:path sdc4-meta:hasComponent ;
+        sh:minCount 6 ;
+        sh:maxCount 6 ;
+    ] .
+
+sdc4:SensorIdShape
+    a sh:NodeShape ;
+    sh:targetNode sdc4:mc-sr01s3ns0r1dstr1ngv4lu3ab ;
+    sh:property [
+        sh:path rdfs:label ;
+        sh:hasValue "Sensor ID" ;
+    ] ;
+    sh:property [
+        sh:path sdc4-meta:isConstrainedByRmComponent ;
+        sh:hasValue sdc4:XdStringType ;
+    ] .
+
+sdc4:LocationShape
+    a sh:NodeShape ;
+    sh:targetNode sdc4:mc-sr02l0c4t10nstr1ngv4lu3cd ;
+    sh:property [
+        sh:path rdfs:label ;
+        sh:hasValue "Location" ;
+    ] ;
+    sh:property [
+        sh:path sdc4-meta:isConstrainedByRmComponent ;
+        sh:hasValue sdc4:XdStringType ;
+    ] .
+
+sdc4:TemperatureShape
+    a sh:NodeShape ;
+    sh:targetNode sdc4:mc-sr03t3mp3r4tur3qu4nt1ty3f ;
+    sh:property [
+        sh:path rdfs:label ;
+        sh:hasValue "Temperature" ;
+    ] ;
+    sh:property [
+        sh:path sdc4-meta:isConstrainedByRmComponent ;
+        sh:hasValue sdc4:XdQuantityType ;
+    ] .
+
+sdc4:HumidityShape
+    a sh:NodeShape ;
+    sh:targetNode sdc4:mc-sr04hum1d1tyqu4nt1tyv4lu3g ;
+    sh:property [
+        sh:path rdfs:label ;
+        sh:hasValue "Humidity" ;
+    ] ;
+    sh:property [
+        sh:path sdc4-meta:isConstrainedByRmComponent ;
+        sh:hasValue sdc4:XdQuantityType ;
+    ] .
+
+sdc4:ReadingTimeShape
+    a sh:NodeShape ;
+    sh:targetNode sdc4:mc-sr05r34d1ngt1m3t3mp0r4lhi ;
+    sh:property [
+        sh:path rdfs:label ;
+        sh:hasValue "Reading Time" ;
+    ] ;
+    sh:property [
+        sh:path sdc4-meta:isConstrainedByRmComponent ;
+        sh:hasValue sdc4:XdTemporalType ;
+    ] .
+
+sdc4:StatusShape
+    a sh:NodeShape ;
+    sh:targetNode sdc4:mc-sr06st4tusstr1ngv4lu3x7kjl ;
+    sh:property [
+        sh:path rdfs:label ;
+        sh:hasValue "Status" ;
+    ] ;
+    sh:property [
+        sh:path sdc4-meta:isConstrainedByRmComponent ;
+        sh:hasValue sdc4:XdStringType ;
+    ] .

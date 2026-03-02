@@ -1,0 +1,79 @@
+// GQL CREATE statements for LabResults data model
+// Load into a property graph database (Neo4j, Amazon Neptune, etc.)
+
+// Data Model node
+CREATE (dm:DataModel {
+  ct_id: "d3m0labr3sult5x7k9q2w4p1",
+  label: "LabResults",
+  creator: "SDC Agents Demo",
+  subject: "Clinical laboratory test results",
+  language: "en-US",
+  date: "2025-11-01"
+})
+
+// Cluster node
+CREATE (cluster:Cluster {
+  ct_id: "lr00clust3rl4br3sultsd4t",
+  label: "LabResults Data Cluster",
+  rm_type: "ClusterType"
+})
+
+// Component nodes
+CREATE (patient_id:Component {
+  ct_id: "lr01pat13nt1dstr1ngv4lu3",
+  label: "Patient ID",
+  rm_type: "XdStringType",
+  description: "Unique patient identifier in the format P-NNNNN."
+})
+
+CREATE (test_name:Component {
+  ct_id: "lr02t3stn4m3str1ngv4lu3x",
+  label: "Test Name",
+  rm_type: "XdStringType",
+  description: "Name of the clinical laboratory test performed."
+})
+
+CREATE (result_value:Component {
+  ct_id: "lr03r3sultv4luqu4nt1tyxz",
+  label: "Result Value",
+  rm_type: "XdQuantityType",
+  description: "Quantitative result of the laboratory test."
+})
+
+CREATE (units:Component {
+  ct_id: "lr04un1t5str1ngv4lu3c0lx",
+  label: "Units",
+  rm_type: "XdStringType",
+  description: "Unit of measure for the test result."
+})
+
+CREATE (collection_date:Component {
+  ct_id: "lr05c0ll3ct10nd4t3t3mp0r",
+  label: "Collection Date",
+  rm_type: "XdTemporalType",
+  description: "Date when the specimen was collected."
+})
+
+CREATE (lab_name:Component {
+  ct_id: "lr06l4bn4m3str1ngv4lu3yz",
+  label: "Lab Name",
+  rm_type: "XdStringType",
+  description: "Name of the laboratory that performed the test."
+})
+
+// Relationships
+CREATE (dm)-[:HAS_CLUSTER]->(cluster)
+CREATE (cluster)-[:HAS_COMPONENT]->(patient_id)
+CREATE (cluster)-[:HAS_COMPONENT]->(test_name)
+CREATE (cluster)-[:HAS_COMPONENT]->(result_value)
+CREATE (cluster)-[:HAS_COMPONENT]->(units)
+CREATE (cluster)-[:HAS_COMPONENT]->(collection_date)
+CREATE (cluster)-[:HAS_COMPONENT]->(lab_name)
+
+// RM type constraint edges
+CREATE (patient_id)-[:CONSTRAINED_BY {rm_component: "XdStringType"}]->(patient_id)
+CREATE (test_name)-[:CONSTRAINED_BY {rm_component: "XdStringType"}]->(test_name)
+CREATE (result_value)-[:CONSTRAINED_BY {rm_component: "XdQuantityType"}]->(result_value)
+CREATE (units)-[:CONSTRAINED_BY {rm_component: "XdStringType"}]->(units)
+CREATE (collection_date)-[:CONSTRAINED_BY {rm_component: "XdTemporalType"}]->(collection_date)
+CREATE (lab_name)-[:CONSTRAINED_BY {rm_component: "XdStringType"}]->(lab_name)

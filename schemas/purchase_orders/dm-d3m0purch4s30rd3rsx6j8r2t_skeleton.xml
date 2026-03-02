@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  SDC4 XML Skeleton: PurchaseOrders
+  Fill __PLACEHOLDER_*__ markers with actual data values.
+-->
+<sdc4:dm-d3m0purch4s30rd3rsx6j8r2t
+  xmlns:sdc4="https://semanticdatacharter.com/ns/sdc4/"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="https://semanticdatacharter.com/ns/sdc4/ dm-d3m0purch4s30rd3rsx6j8r2t.xsd">
+
+  <dm-label>PurchaseOrders</dm-label>
+  <dm-language>en-US</dm-language>
+  <dm-encoding>utf-8</dm-encoding>
+
+  <sdc4:ms-po00clust3rpurch4s30rd3rs>
+    <label>PurchaseOrders Data Cluster</label>
+
+    <sdc4:ms-po01p0numb3rstr1ngv4lu3ab>
+      <label>PO Number</label>
+      <xdstring-value>__PLACEHOLDER_po01p0numb3rstr1ngv4lu3ab__</xdstring-value>
+    </sdc4:ms-po01p0numb3rstr1ngv4lu3ab>
+
+    <sdc4:ms-po02v3nd0rstr1ngv4lu3cd34>
+      <label>Vendor</label>
+      <xdstring-value>__PLACEHOLDER_po02v3nd0rstr1ngv4lu3cd34__</xdstring-value>
+    </sdc4:ms-po02v3nd0rstr1ngv4lu3cd34>
+
+    <sdc4:ms-po03d3scr1pt10nstr1ngv4lu>
+      <label>Item Description</label>
+      <xdstring-value>__PLACEHOLDER_po03d3scr1pt10nstr1ngv4lu__</xdstring-value>
+    </sdc4:ms-po03d3scr1pt10nstr1ngv4lu>
+
+    <sdc4:ms-po04qu4nt1tyc0untv4lu3efg>
+      <label>Quantity</label>
+      <xdcount-value>__PLACEHOLDER_po04qu4nt1tyc0untv4lu3efg__</xdcount-value>
+      <xdcount-units>
+        <label>Count Units</label>
+        <xdstring-value>__PLACEHOLDER_po04un1tstr1ngtyp3f0rcnt__</xdstring-value>
+      </xdcount-units>
+    </sdc4:ms-po04qu4nt1tyc0untv4lu3efg>
+
+    <sdc4:ms-po05un1tpr1c3qu4nt1tyv4lu>
+      <label>Unit Price</label>
+      <xdquantity-value>__PLACEHOLDER_po05un1tpr1c3qu4nt1tyv4lu__</xdquantity-value>
+      <xdquantity-units>
+        <label>Price Units</label>
+        <xdstring-value>__PLACEHOLDER_po05un1tstr1ngtyp3f0rpr1c__</xdstring-value>
+      </xdquantity-units>
+    </sdc4:ms-po05un1tpr1c3qu4nt1tyv4lu>
+
+    <sdc4:ms-po06ord3rd4t3t3mp0r4lhij>
+      <label>Order Date</label>
+      <xdtemporal-date>__PLACEHOLDER_po06ord3rd4t3t3mp0r4lhij__</xdtemporal-date>
+    </sdc4:ms-po06ord3rd4t3t3mp0r4lhij>
+
+  </sdc4:ms-po00clust3rpurch4s30rd3rs>
+
+</sdc4:dm-d3m0purch4s30rd3rsx6j8r2t>

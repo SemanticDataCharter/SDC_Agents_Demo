@@ -1,6 +1,5 @@
-# SDC Agents Demo — Lite Stack
-# GraphDB + PostgreSQL only (~2-3GB RAM)
-# For full enterprise stack (SirixDB, Keycloak), see SDCStudio AppGen
+# SDC Agents Demo — GraphDB with OWL 2 RL Reasoning
+# Usage: docker compose up -d
 
 services:
   graphdb:
@@ -12,21 +11,13 @@ services:
       - graphdb_data:/opt/graphdb/home
     environment:
       GDB_HEAP_SIZE: 1g
-    restart: unless-stopped
-
-  db:
-    image: postgres:16-alpine
-    container_name: sdc-demo-postgres
-    ports:
-      - "5432:5432"
-    volumes:
-      - postgres_data:/var/lib/postgresql/data
-    environment:
-      POSTGRES_DB: sdc4_demo
-      POSTGRES_USER: sdc4
-      POSTGRES_PASSWORD: sdc4_demo_pass
+    healthcheck:
+      test: ["CMD", "curl", "-sf", "http://localhost:7200/rest/repositories"]
+      interval: 10s
+      timeout: 5s
+      retries: 12
+      start_period: 30s
     restart: unless-stopped
 
 volumes:
   graphdb_data:
-  postgres_data:

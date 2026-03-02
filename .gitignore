@@ -1,3 +1,7 @@
+# SDC Agents Demo
+output/
+.sdc-cache/
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[codz]

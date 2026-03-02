@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  SDC4 XML Skeleton: LabResults
+  Fill __PLACEHOLDER_*__ markers with actual data values.
+-->
+<sdc4:dm-d3m0labr3sult5x7k9q2w4p1
+  xmlns:sdc4="https://semanticdatacharter.com/ns/sdc4/"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="https://semanticdatacharter.com/ns/sdc4/ dm-d3m0labr3sult5x7k9q2w4p1.xsd">
+
+  <dm-label>LabResults</dm-label>
+  <dm-language>en-US</dm-language>
+  <dm-encoding>utf-8</dm-encoding>
+
+  <sdc4:ms-lr00clust3rl4br3sultsd4t>
+    <label>LabResults Data Cluster</label>
+
+    <sdc4:ms-lr01pat13nt1dstr1ngv4lu3>
+      <label>Patient ID</label>
+      <xdstring-value>__PLACEHOLDER_lr01pat13nt1dstr1ngv4lu3__</xdstring-value>
+    </sdc4:ms-lr01pat13nt1dstr1ngv4lu3>
+
+    <sdc4:ms-lr02t3stn4m3str1ngv4lu3x>
+      <label>Test Name</label>
+      <xdstring-value>__PLACEHOLDER_lr02t3stn4m3str1ngv4lu3x__</xdstring-value>
+    </sdc4:ms-lr02t3stn4m3str1ngv4lu3x>
+
+    <sdc4:ms-lr03r3sultv4luqu4nt1tyxz>
+      <label>Result Value</label>
+      <xdquantity-value>__PLACEHOLDER_lr03r3sultv4luqu4nt1tyxz__</xdquantity-value>
+      <xdquantity-units>
+        <label>Result Units</label>
+        <xdstring-value>__PLACEHOLDER_lr03un1tstr1ngtyp3f0rlabr__</xdstring-value>
+      </xdquantity-units>
+    </sdc4:ms-lr03r3sultv4luqu4nt1tyxz>
+
+    <sdc4:ms-lr04un1t5str1ngv4lu3c0lx>
+      <label>Units</label>
+      <xdstring-value>__PLACEHOLDER_lr04un1t5str1ngv4lu3c0lx__</xdstring-value>
+    </sdc4:ms-lr04un1t5str1ngv4lu3c0lx>
+
+    <sdc4:ms-lr05c0ll3ct10nd4t3t3mp0r>
+      <label>Collection Date</label>
+      <xdtemporal-date>__PLACEHOLDER_lr05c0ll3ct10nd4t3t3mp0r__</xdtemporal-date>
+    </sdc4:ms-lr05c0ll3ct10nd4t3t3mp0r>
+
+    <sdc4:ms-lr06l4bn4m3str1ngv4lu3yz>
+      <label>Lab Name</label>
+      <xdstring-value>__PLACEHOLDER_lr06l4bn4m3str1ngv4lu3yz__</xdstring-value>
+    </sdc4:ms-lr06l4bn4m3str1ngv4lu3yz>
+
+  </sdc4:ms-lr00clust3rl4br3sultsd4t>
+
+</sdc4:dm-d3m0labr3sult5x7k9q2w4p1>

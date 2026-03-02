@@ -1,97 +1,171 @@
 # SDC Agents Demo
 
-**Build a Zero-Hallucination Knowledge Graph in 5 Minutes.**
+**From a raw CSV to a validated, reasoned knowledge graph in 5 minutes.**
 
-This demo takes you from a raw CSV dataset to a validated, reasoned knowledge graph — using [SDC Agents](https://github.com/Axius-SDC/SDC_Agents) and the SDC4 semantic data modeling framework.
+This demo walks you through the [SDC Agents](https://github.com/Axius-SDC/SDC_Agents) and [sdcvalidator](https://pypi.org/project/sdcvalidator/) pipeline: introspect a CSV, map columns to SDC4 schema components, generate XML instances, validate them, and load RDF triples into GraphDB with OWL 2 RL reasoning.
 
 ## What You'll Get
 
-- A validated SDC4 schema (XSD) generated from real-world data
-- Browsable HTML documentation for every schema component
-- JSON-LD semantic descriptions for linked data integration
-- RDF triples loaded into a local GraphDB instance with OWL 2 RL reasoning
-- SHACL constraints for schema validation
-- GQL CREATE statements for property graph databases
-- A SPARQL query that demonstrates *inference* — answers that only exist because the reasoner derived them
+- SDC4 schema artifacts (XSD, HTML, JSON-LD, SHACL, GQL, RDF)
+- Validated XML instances generated from your CSV data
+- A knowledge graph with OWL 2 RL inference in GraphDB
+- SPARQL queries that demonstrate cross-domain semantic connections
 
 ## Prerequisites
 
-- [Docker](https://docs.docker.com/engine/install/) or [Podman](https://podman.io/getting-started/installation)
 - Python 3.11+
-- ~3GB free RAM (this demo uses a lite stack)
+- Docker (only needed for GraphDB — optional with `--skip-graphdb`)
 
 ## Quick Start
 
-### 1. Clone and start the lite stack
+### Self-Contained Mode (No Docker, No SDCStudio)
 
 ```bash
 git clone https://github.com/Axius-SDC/SDC_Agents_Demo.git
 cd SDC_Agents_Demo
-docker compose up -d
+
+pip install -r requirements.txt
+
+python demo.py --dataset lab_results --mode self-contained --skip-graphdb
 ```
 
-This starts GraphDB and PostgreSQL only. No Keycloak, no SirixDB — those are production concerns.
+This runs the full pipeline using pre-baked schemas and local validation. No network access required.
 
-### 2. Install SDC Agents
+### Full Pipeline with GraphDB
 
 ```bash
-pip install sdc-agents
+docker compose up -d                  # Start GraphDB (~30s to initialize)
+python demo.py --dataset lab_results  # Process, validate, load triples
 ```
 
-### 3. Run the demo pipeline
+Open [http://localhost:7200](http://localhost:7200) to explore the knowledge graph.
+
+## Sample Datasets
+
+| Dataset | Domain | Columns | SDC4 Types Used |
+|---|---|---|---|
+| `lab_results` | Healthcare | patient_id, test_name, result_value, units, collection_date, lab_name | XdString, XdQuantity, XdTemporal |
+| `sensor_readings` | IoT | sensor_id, location, temperature, humidity, reading_time, status | XdString, XdQuantity, XdTemporal |
+| `purchase_orders` | Supply Chain | po_number, vendor, item_description, quantity, unit_price, order_date | XdString, XdCount, XdQuantity, XdTemporal |
+
+Run any dataset:
 
 ```bash
-# TODO: Exact command TBD — processes sample data against SDC catalog,
-# validates, and generates all output artifacts
-sdc-agents quickstart --data data/sample_dataset.csv
+python demo.py --dataset sensor_readings --skip-graphdb
+python demo.py --dataset purchase_orders --skip-graphdb
 ```
 
-### 4. Explore the results
+## Pipeline Steps
 
-**Browse the schema documentation:**
-Open `schemas/dm-*.html` in your browser to see the generated documentation for each schema component.
+The demo executes seven steps:
 
-**Query the knowledge graph:**
-Open GraphDB Workbench at [http://localhost:7200](http://localhost:7200) and paste the SPARQL queries from `sparql/demo_queries.md`.
+1. **Introspect** — Read the CSV file, infer column types (string, decimal, date, datetime, integer)
+2. **Schema Resolution** — Copy pre-baked SDC4 schemas into the local cache (self-contained) or fetch from SDCStudio catalog API (live mode)
+3. **Mapping** — Load column-to-component field mappings, display the mapping table
+4. **Generate** — Create SDC4 XML instances from each CSV row using the schema and mappings
+5. **Validate** — Validate instances against the XSD schema using sdcvalidator (structural + semantic checks)
+6. **Load to GraphDB** — Load RDF triples into GraphDB with OWL 2 RL reasoning enabled
+7. **Summary** — Print artifact paths, validation results, and GraphDB URLs
 
-**Inspect the artifacts:**
-- `schemas/dm-*.xsd` — XML Schema definitions
-- `schemas/dm-*.jsonld` — JSON-LD semantic descriptions
-- `schemas/dm-*_shacl.ttl` — SHACL constraint shapes
-- `schemas/dm-*.gql` — GQL CREATE statements for property graphs
+## Modes
 
-## What Just Happened?
+### Self-Contained (default)
 
-SDC Agents processed your CSV through a pipeline that:
+Uses pre-baked schemas in `schemas/` and validates locally with `sdcvalidator`. Works completely offline.
 
-1. **Introspected** the data structure, inferring types and constraints
-2. **Mapped** columns to existing SDC4 catalog components (FHIR, NIEM, X12)
-3. **Validated** the data against SDC4 schemas (structural validation, H=0)
-4. **Generated** seven output formats from a single semantic definition
-5. **Loaded** RDF triples into GraphDB with OWL 2 RL reasoning enabled
+```bash
+python demo.py --dataset lab_results --mode self-contained --skip-graphdb
+```
 
-The knowledge graph doesn't just store your data — it *reasons* over it. The SPARQL demo queries show inferences the reasoner derived that weren't in your original CSV.
+### Live
+
+Connects to a running SDCStudio instance for catalog lookups and VaaS validation. Requires `SDC_API_KEY` environment variable.
+
+```bash
+export SDC_API_KEY="your-api-key"
+python demo.py --dataset lab_results --mode live
+```
+
+## Exploring the Knowledge Graph
+
+After running the pipeline with GraphDB:
+
+1. Open [http://localhost:7200](http://localhost:7200)
+2. Select the `sdc4_demo` repository
+3. Go to **SPARQL** and paste queries from [`sparql/demo_queries.md`](sparql/demo_queries.md)
+
+### Example: Cross-Domain Quantity Components
+
+This query finds all components that represent quantities — spanning healthcare (lab results), IoT (sensor readings), and supply chain (purchase orders):
+
+```sparql
+PREFIX rdfs:      <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX sdc4:      <https://semanticdatacharter.com/ns/sdc4/>
+PREFIX sdc4-meta: <https://semanticdatacharter.com/ontology/sdc4-meta/>
+
+SELECT ?dmLabel ?componentLabel ?comment
+WHERE {
+  ?dm a sdc4-meta:DataModel ;
+      rdfs:label ?dmLabel ;
+      sdc4-meta:hasCluster ?cluster .
+  ?cluster sdc4-meta:hasComponent ?component .
+  ?component sdc4-meta:isConstrainedByRmComponent sdc4:XdQuantityType ;
+             rdfs:label ?componentLabel .
+  OPTIONAL { ?component rdfs:comment ?comment }
+}
+ORDER BY ?dmLabel
+```
+
+Result: "Result Value" (healthcare), "Temperature"/"Humidity" (IoT), and "Unit Price" (supply chain) share the same semantic type.
 
 ## Project Structure
 
 ```
 SDC_Agents_Demo/
-  README.md              # You are here
-  docker-compose.yml     # Lite stack: GraphDB + PostgreSQL
-  data/                  # Sample dataset(s)
-  schemas/               # Generated SDCStudio outputs (XSD, HTML, TTL, JSONLD, SHACL, GQL)
-  sparql/                # Demo SPARQL queries with explanations
-  scripts/               # Helper scripts (triple loading, etc.)
+  README.md                   # This file
+  demo.py                     # Main orchestration script
+  requirements.txt            # Python dependencies
+  sdc-agents.demo.yaml        # SDC Agents configuration
+  docker-compose.yml          # GraphDB service
+  data/                       # Sample CSV datasets
+    lab_results.csv
+    sensor_readings.csv
+    purchase_orders.csv
+  schemas/                    # Pre-baked SDC4 schema artifacts
+    sdc4.xsd                  # Minimal RM schema subset
+    field_mappings/            # Column-to-component mappings
+    lab_results/               # XSD, XML, TTL, HTML, JSON-LD, SHACL, GQL
+    sensor_readings/
+    purchase_orders/
+  scripts/                    # Helper scripts
+    graphdb-repo-config.ttl   # GraphDB OWL 2 RL repository config
+    load_triples.sh           # Standalone triple loading script
+  sparql/                     # SPARQL demo queries
+    demo_queries.md
+  output/                     # Generated artifacts (gitignored)
 ```
 
-## Next Steps
+## Troubleshooting
 
-- **Full enterprise stack**: See the [SDCStudio AppGen](https://github.com/Axius-SDC/SDCStudio) for production deployment with SirixDB temporal versioning and Keycloak SSO
-- **Build your own models**: Use [SDCStudio](https://axius-sdc.com) to create SDC4-compliant schemas for your domain
-- **Integrate SDC Agents**: See the [SDC Agents documentation](https://github.com/Axius-SDC/SDC_Agents) for the full agent toolkit
+**sdcvalidator not installed**:
+```bash
+pip install sdcvalidator>=4.1.0
+```
+
+**GraphDB not reachable**:
+```bash
+docker compose up -d
+docker compose ps              # Verify healthy
+docker compose logs graphdb    # Check logs
+```
+
+**Schema validation errors**: The pre-baked schemas are a minimal subset for demo purposes. For full validation, use live mode with a running SDCStudio instance.
+
+**Port conflicts**: If port 7200 is in use, edit `docker-compose.yml` to map to a different host port.
 
 ## Learn More
 
 - [Semantic Data Charter](https://semanticdatacharter.com) — The SDC4 specification
-- [Axius SDC](https://axius-sdc.com) — SDCStudio cloud platform
-- [SDC Agents](https://github.com/Axius-SDC/SDC_Agents) — The agent toolkit this demo uses
+- [SDCStudio](https://axius-sdc.com) — Cloud platform for building SDC4 schemas
+- [SDC Agents](https://github.com/Axius-SDC/SDC_Agents) — The agent toolkit powering this demo
+- [sdcvalidator](https://pypi.org/project/sdcvalidator/) — SDC4 XML schema validation library

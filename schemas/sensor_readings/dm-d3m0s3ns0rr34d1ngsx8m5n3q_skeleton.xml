@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  SDC4 XML Skeleton: SensorReadings
+  Fill __PLACEHOLDER_*__ markers with actual data values.
+-->
+<sdc4:dm-d3m0s3ns0rr34d1ngsx8m5n3q
+  xmlns:sdc4="https://semanticdatacharter.com/ns/sdc4/"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="https://semanticdatacharter.com/ns/sdc4/ dm-d3m0s3ns0rr34d1ngsx8m5n3q.xsd">
+
+  <dm-label>SensorReadings</dm-label>
+  <dm-language>en-US</dm-language>
+  <dm-encoding>utf-8</dm-encoding>
+
+  <sdc4:ms-sr00clust3rs3ns0rr34d1ngs>
+    <label>SensorReadings Data Cluster</label>
+
+    <sdc4:ms-sr01s3ns0r1dstr1ngv4lu3ab>
+      <label>Sensor ID</label>
+      <xdstring-value>__PLACEHOLDER_sr01s3ns0r1dstr1ngv4lu3ab__</xdstring-value>
+    </sdc4:ms-sr01s3ns0r1dstr1ngv4lu3ab>
+
+    <sdc4:ms-sr02l0c4t10nstr1ngv4lu3cd>
+      <label>Location</label>
+      <xdstring-value>__PLACEHOLDER_sr02l0c4t10nstr1ngv4lu3cd__</xdstring-value>
+    </sdc4:ms-sr02l0c4t10nstr1ngv4lu3cd>
+
+    <sdc4:ms-sr03t3mp3r4tur3qu4nt1ty3f>
+      <label>Temperature</label>
+      <xdquantity-value>__PLACEHOLDER_sr03t3mp3r4tur3qu4nt1ty3f__</xdquantity-value>
+      <xdquantity-units>
+        <label>Temperature Units</label>
+        <xdstring-value>__PLACEHOLDER_sr03un1tstr1ngtyp3f0rt3mp__</xdstring-value>
+      </xdquantity-units>
+    </sdc4:ms-sr03t3mp3r4tur3qu4nt1ty3f>
+
+    <sdc4:ms-sr04hum1d1tyqu4nt1tyv4lu3g>
+      <label>Humidity</label>
+      <xdquantity-value>__PLACEHOLDER_sr04hum1d1tyqu4nt1tyv4lu3g__</xdquantity-value>
+      <xdquantity-units>
+        <label>Humidity Units</label>
+        <xdstring-value>__PLACEHOLDER_sr04un1tstr1ngtyp3f0rhum1__</xdstring-value>
+      </xdquantity-units>
+    </sdc4:ms-sr04hum1d1tyqu4nt1tyv4lu3g>
+
+    <sdc4:ms-sr05r34d1ngt1m3t3mp0r4lhi>
+      <label>Reading Time</label>
+      <xdtemporal-datetime>__PLACEHOLDER_sr05r34d1ngt1m3t3mp0r4lhi__</xdtemporal-datetime>
+    </sdc4:ms-sr05r34d1ngt1m3t3mp0r4lhi>
+
+    <sdc4:ms-sr06st4tusstr1ngv4lu3x7kjl>
+      <label>Status</label>
+      <xdstring-value>__PLACEHOLDER_sr06st4tusstr1ngv4lu3x7kjl__</xdstring-value>
+    </sdc4:ms-sr06st4tusstr1ngv4lu3x7kjl>
+
+  </sdc4:ms-sr00clust3rs3ns0rr34d1ngs>
+
+</sdc4:dm-d3m0s3ns0rr34d1ngsx8m5n3q>

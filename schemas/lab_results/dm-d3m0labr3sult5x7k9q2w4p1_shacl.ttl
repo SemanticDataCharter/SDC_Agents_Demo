@@ -1,0 +1,95 @@
+@prefix sh:        <http://www.w3.org/ns/shacl#> .
+@prefix rdf:       <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs:      <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd:       <http://www.w3.org/2001/XMLSchema#> .
+@prefix sdc4:      <https://semanticdatacharter.com/ns/sdc4/> .
+@prefix sdc4-meta: <https://semanticdatacharter.com/ontology/sdc4-meta/> .
+
+# =============================================================================
+# SHACL Shapes: LabResults
+# =============================================================================
+
+sdc4:LabResultsShape
+    a sh:NodeShape ;
+    sh:targetClass sdc4-meta:DataModel ;
+    sh:property [
+        sh:path rdfs:label ;
+        sh:datatype xsd:string ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+    ] ;
+    sh:property [
+        sh:path sdc4-meta:hasCluster ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:node sdc4:LabResultsClusterShape ;
+    ] .
+
+sdc4:LabResultsClusterShape
+    a sh:NodeShape ;
+    sh:targetNode sdc4:mc-lr00clust3rl4br3sultsd4t ;
+    sh:property [
+        sh:path sdc4-meta:hasComponent ;
+        sh:minCount 6 ;
+        sh:maxCount 6 ;
+    ] .
+
+sdc4:PatientIdShape
+    a sh:NodeShape ;
+    sh:targetNode sdc4:mc-lr01pat13nt1dstr1ngv4lu3 ;
+    sh:property [
+        sh:path rdfs:label ;
+        sh:hasValue "Patient ID" ;
+    ] ;
+    sh:property [
+        sh:path sdc4-meta:isConstrainedByRmComponent ;
+        sh:hasValue sdc4:XdStringType ;
+    ] .
+
+sdc4:TestNameShape
+    a sh:NodeShape ;
+    sh:targetNode sdc4:mc-lr02t3stn4m3str1ngv4lu3x ;
+    sh:property [
+        sh:path rdfs:label ;
+        sh:hasValue "Test Name" ;
+    ] ;
+    sh:property [
+        sh:path sdc4-meta:isConstrainedByRmComponent ;
+        sh:hasValue sdc4:XdStringType ;
+    ] .
+
+sdc4:ResultValueShape
+    a sh:NodeShape ;
+    sh:targetNode sdc4:mc-lr03r3sultv4luqu4nt1tyxz ;
+    sh:property [
+        sh:path rdfs:label ;
+        sh:hasValue "Result Value" ;
+    ] ;
+    sh:property [
+        sh:path sdc4-meta:isConstrainedByRmComponent ;
+        sh:hasValue sdc4:XdQuantityType ;
+    ] .
+
+sdc4:CollectionDateShape
+    a sh:NodeShape ;
+    sh:targetNode sdc4:mc-lr05c0ll3ct10nd4t3t3mp0r ;
+    sh:property [
+        sh:path rdfs:label ;
+        sh:hasValue "Collection Date" ;
+    ] ;
+    sh:property [
+        sh:path sdc4-meta:isConstrainedByRmComponent ;
+        sh:hasValue sdc4:XdTemporalType ;
+    ] .
+
+sdc4:LabNameShape
+    a sh:NodeShape ;
+    sh:targetNode sdc4:mc-lr06l4bn4m3str1ngv4lu3yz ;
+    sh:property [
+        sh:path rdfs:label ;
+        sh:hasValue "Lab Name" ;
+    ] ;
+    sh:property [
+        sh:path sdc4-meta:isConstrainedByRmComponent ;
+        sh:hasValue sdc4:XdStringType ;
+    ] .

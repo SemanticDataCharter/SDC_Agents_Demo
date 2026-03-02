@@ -1,0 +1,57 @@
+{
+  "datasource": "lab_results",
+  "schema_ct_id": "d3m0labr3sult5x7k9q2w4p1",
+  "mappings": [
+    {
+      "column_name": "patient_id",
+      "column_type": "string",
+      "component_ct_id": "lr01pat13nt1dstr1ngv4lu3",
+      "component_label": "Patient ID",
+      "rm_type": "XdString",
+      "value_element": "xdstring-value"
+    },
+    {
+      "column_name": "test_name",
+      "column_type": "string",
+      "component_ct_id": "lr02t3stn4m3str1ngv4lu3x",
+      "component_label": "Test Name",
+      "rm_type": "XdString",
+      "value_element": "xdstring-value"
+    },
+    {
+      "column_name": "result_value",
+      "column_type": "decimal",
+      "component_ct_id": "lr03r3sultv4luqu4nt1tyxz",
+      "component_label": "Result Value",
+      "rm_type": "XdQuantity",
+      "value_element": "xdquantity-value",
+      "units_element": "xdquantity-units",
+      "units_label": "Result Units",
+      "units_source_column": "units"
+    },
+    {
+      "column_name": "units",
+      "column_type": "string",
+      "component_ct_id": "lr04un1t5str1ngv4lu3c0lx",
+      "component_label": "Units",
+      "rm_type": "XdString",
+      "value_element": "xdstring-value"
+    },
+    {
+      "column_name": "collection_date",
+      "column_type": "date",
+      "component_ct_id": "lr05c0ll3ct10nd4t3t3mp0r",
+      "component_label": "Collection Date",
+      "rm_type": "XdTemporal",
+      "value_element": "xdtemporal-date"
+    },
+    {
+      "column_name": "lab_name",
+      "column_type": "string",
+      "component_ct_id": "lr06l4bn4m3str1ngv4lu3yz",
+      "component_label": "Lab Name",
+      "rm_type": "XdString",
+      "value_element": "xdstring-value"
+    }
+  ]
+}

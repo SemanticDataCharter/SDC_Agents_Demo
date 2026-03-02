@@ -1,0 +1,76 @@
+@prefix rdf:       <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs:      <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix owl:       <http://www.w3.org/2002/07/owl#> .
+@prefix xsd:       <http://www.w3.org/2001/XMLSchema#> .
+@prefix dc:        <http://purl.org/dc/elements/1.1/> .
+@prefix sdc4:      <https://semanticdatacharter.com/ns/sdc4/> .
+@prefix sdc4-meta: <https://semanticdatacharter.com/ontology/sdc4-meta/> .
+
+# =============================================================================
+# Data Model: LabResults
+# =============================================================================
+
+sdc4:dm-d3m0labr3sult5x7k9q2w4p1
+    a sdc4-meta:DataModel ;
+    rdfs:label "LabResults" ;
+    dc:title "LabResults" ;
+    dc:creator "SDC Agents Demo" ;
+    dc:subject "Clinical laboratory test results" ;
+    dc:description "Data model for clinical laboratory test results including patient identification, test names, quantitative results with units, collection dates, and performing laboratory." ;
+    dc:date "2025-11-01" ;
+    dc:language "en-US" ;
+    sdc4-meta:hasCluster sdc4:mc-lr00clust3rl4br3sultsd4t .
+
+# Cluster
+sdc4:mc-lr00clust3rl4br3sultsd4t
+    a sdc4-meta:ModelComponent ;
+    sdc4-meta:isConstrainedByRmComponent sdc4:ClusterType ;
+    rdfs:label "LabResults Data Cluster" ;
+    sdc4-meta:hasComponent sdc4:mc-lr01pat13nt1dstr1ngv4lu3 ,
+                           sdc4:mc-lr02t3stn4m3str1ngv4lu3x ,
+                           sdc4:mc-lr03r3sultv4luqu4nt1tyxz ,
+                           sdc4:mc-lr04un1t5str1ngv4lu3c0lx ,
+                           sdc4:mc-lr05c0ll3ct10nd4t3t3mp0r ,
+                           sdc4:mc-lr06l4bn4m3str1ngv4lu3yz .
+
+# Patient ID (XdString)
+sdc4:mc-lr01pat13nt1dstr1ngv4lu3
+    a sdc4-meta:ModelComponent ;
+    sdc4-meta:isConstrainedByRmComponent sdc4:XdStringType ;
+    rdfs:label "Patient ID" ;
+    rdfs:comment "Unique patient identifier in the format P-NNNNN." .
+
+# Test Name (XdString)
+sdc4:mc-lr02t3stn4m3str1ngv4lu3x
+    a sdc4-meta:ModelComponent ;
+    sdc4-meta:isConstrainedByRmComponent sdc4:XdStringType ;
+    rdfs:label "Test Name" ;
+    rdfs:comment "Name of the clinical laboratory test performed." .
+
+# Result Value (XdQuantity)
+sdc4:mc-lr03r3sultv4luqu4nt1tyxz
+    a sdc4-meta:ModelComponent ;
+    sdc4-meta:isConstrainedByRmComponent sdc4:XdQuantityType ;
+    rdfs:label "Result Value" ;
+    rdfs:comment "Quantitative result of the laboratory test with associated units of measure." .
+
+# Units (XdString)
+sdc4:mc-lr04un1t5str1ngv4lu3c0lx
+    a sdc4-meta:ModelComponent ;
+    sdc4-meta:isConstrainedByRmComponent sdc4:XdStringType ;
+    rdfs:label "Units" ;
+    rdfs:comment "Unit of measure for the test result." .
+
+# Collection Date (XdTemporal)
+sdc4:mc-lr05c0ll3ct10nd4t3t3mp0r
+    a sdc4-meta:ModelComponent ;
+    sdc4-meta:isConstrainedByRmComponent sdc4:XdTemporalType ;
+    rdfs:label "Collection Date" ;
+    rdfs:comment "Date when the specimen was collected from the patient." .
+
+# Lab Name (XdString)
+sdc4:mc-lr06l4bn4m3str1ngv4lu3yz
+    a sdc4-meta:ModelComponent ;
+    sdc4-meta:isConstrainedByRmComponent sdc4:XdStringType ;
+    rdfs:label "Lab Name" ;
+    rdfs:comment "Name of the laboratory that performed the test." .

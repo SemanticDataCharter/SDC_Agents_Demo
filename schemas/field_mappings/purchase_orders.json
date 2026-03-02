@@ -1,0 +1,60 @@
+{
+  "datasource": "purchase_orders",
+  "schema_ct_id": "d3m0purch4s30rd3rsx6j8r2t",
+  "mappings": [
+    {
+      "column_name": "po_number",
+      "column_type": "string",
+      "component_ct_id": "po01p0numb3rstr1ngv4lu3ab",
+      "component_label": "PO Number",
+      "rm_type": "XdString",
+      "value_element": "xdstring-value"
+    },
+    {
+      "column_name": "vendor",
+      "column_type": "string",
+      "component_ct_id": "po02v3nd0rstr1ngv4lu3cd34",
+      "component_label": "Vendor",
+      "rm_type": "XdString",
+      "value_element": "xdstring-value"
+    },
+    {
+      "column_name": "item_description",
+      "column_type": "string",
+      "component_ct_id": "po03d3scr1pt10nstr1ngv4lu",
+      "component_label": "Item Description",
+      "rm_type": "XdString",
+      "value_element": "xdstring-value"
+    },
+    {
+      "column_name": "quantity",
+      "column_type": "integer",
+      "component_ct_id": "po04qu4nt1tyc0untv4lu3efg",
+      "component_label": "Quantity",
+      "rm_type": "XdCount",
+      "value_element": "xdcount-value",
+      "units_element": "xdcount-units",
+      "units_label": "Count Units",
+      "units_default_value": "each"
+    },
+    {
+      "column_name": "unit_price",
+      "column_type": "decimal",
+      "component_ct_id": "po05un1tpr1c3qu4nt1tyv4lu",
+      "component_label": "Unit Price",
+      "rm_type": "XdQuantity",
+      "value_element": "xdquantity-value",
+      "units_element": "xdquantity-units",
+      "units_label": "Price Units",
+      "units_default_value": "USD"
+    },
+    {
+      "column_name": "order_date",
+      "column_type": "date",
+      "component_ct_id": "po06ord3rd4t3t3mp0r4lhij",
+      "component_label": "Order Date",
+      "rm_type": "XdTemporal",
+      "value_element": "xdtemporal-date"
+    }
+  ]
+}
