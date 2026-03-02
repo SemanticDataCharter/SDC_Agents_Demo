@@ -167,7 +167,7 @@ docker compose logs graphdb    # Check logs
 
 ## Learn More
 
-- [Semantic Data Charter](https://semanticdatacharter.com) — The SDC4 specification
-- [SDCStudio](https://axius-sdc.com) — Cloud platform for building SDC4 schemas
+- [Semantic Data Charter](https://semanticdatacharter.com/specs/index.html) — The SDC4 specification
+- [SDCStudio](https://sdcstudio.axius-sdc.com/) — Cloud platform for building SDC4 schemas
 - [SDC Agents](https://github.com/Axius-SDC/SDC_Agents) — The agent toolkit powering this demo
 - [sdcvalidator](https://pypi.org/project/sdcvalidator/) — SDC4 XML schema validation library
