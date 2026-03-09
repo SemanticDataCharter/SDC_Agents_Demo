@@ -1,4 +1,4 @@
-sdc-agents>=4.0.0
-sdcvalidator>=4.1.0
+sdc-agents>=4.1.0
+sdcvalidator>=4.2.0
 httpx>=0.27
 pyyaml>=6.0
