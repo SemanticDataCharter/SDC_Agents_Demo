@@ -1,0 +1,119 @@
+@prefix sh:        <http://www.w3.org/ns/shacl#> .
+@prefix rdf:       <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs:      <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd:       <http://www.w3.org/2001/XMLSchema#> .
+@prefix sdc4:      <https://semanticdatacharter.com/ns/sdc4/> .
+@prefix sdc4-meta: <https://semanticdatacharter.com/ontology/sdc4-meta/> .
+
+# =============================================================================
+# SHACL Shapes: EmployeeDirectory
+# =============================================================================
+
+sdc4:EmployeeDirectoryShape
+    a sh:NodeShape ;
+    sh:targetClass sdc4-meta:DataModel ;
+    sh:property [
+        sh:path rdfs:label ;
+        sh:datatype xsd:string ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+    ] ;
+    sh:property [
+        sh:path sdc4-meta:hasCluster ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:node sdc4:EmployeeDirectoryClusterShape ;
+    ] .
+
+sdc4:EmployeeDirectoryClusterShape
+    a sh:NodeShape ;
+    sh:targetNode sdc4:mc-em00clust3r3mpl0y33d1r3ct ;
+    sh:property [
+        sh:path sdc4-meta:hasComponent ;
+        sh:minCount 7 ;
+        sh:maxCount 7 ;
+    ] .
+
+sdc4:FirstNameShape
+    a sh:NodeShape ;
+    sh:targetNode sdc4:mc-em01f1rstn4m3str1ngv4lu3x ;
+    sh:property [
+        sh:path rdfs:label ;
+        sh:hasValue "First Name" ;
+    ] ;
+    sh:property [
+        sh:path sdc4-meta:isConstrainedByRmComponent ;
+        sh:hasValue sdc4:XdStringType ;
+    ] .
+
+sdc4:LastNameShape
+    a sh:NodeShape ;
+    sh:targetNode sdc4:mc-em02l4stn4m3str1ngv4lu3xz ;
+    sh:property [
+        sh:path rdfs:label ;
+        sh:hasValue "Last Name" ;
+    ] ;
+    sh:property [
+        sh:path sdc4-meta:isConstrainedByRmComponent ;
+        sh:hasValue sdc4:XdStringType ;
+    ] .
+
+sdc4:EmailShape
+    a sh:NodeShape ;
+    sh:targetNode sdc4:mc-em033m41lstr1ngv4lu3xyzab ;
+    sh:property [
+        sh:path rdfs:label ;
+        sh:hasValue "Email" ;
+    ] ;
+    sh:property [
+        sh:path sdc4-meta:isConstrainedByRmComponent ;
+        sh:hasValue sdc4:XdStringType ;
+    ] .
+
+sdc4:HireDateShape
+    a sh:NodeShape ;
+    sh:targetNode sdc4:mc-em04h1r3d4t3t3mp0r4lv4lu ;
+    sh:property [
+        sh:path rdfs:label ;
+        sh:hasValue "Hire Date" ;
+    ] ;
+    sh:property [
+        sh:path sdc4-meta:isConstrainedByRmComponent ;
+        sh:hasValue sdc4:XdTemporalType ;
+    ] .
+
+sdc4:SalaryShape
+    a sh:NodeShape ;
+    sh:targetNode sdc4:mc-em05s4l4ryqu4nt1tyv4lu3xz ;
+    sh:property [
+        sh:path rdfs:label ;
+        sh:hasValue "Salary" ;
+    ] ;
+    sh:property [
+        sh:path sdc4-meta:isConstrainedByRmComponent ;
+        sh:hasValue sdc4:XdQuantityType ;
+    ] .
+
+sdc4:DepartmentIdShape
+    a sh:NodeShape ;
+    sh:targetNode sdc4:mc-em06d3pt1dc0untv4lu3xyzab ;
+    sh:property [
+        sh:path rdfs:label ;
+        sh:hasValue "Department ID" ;
+    ] ;
+    sh:property [
+        sh:path sdc4-meta:isConstrainedByRmComponent ;
+        sh:hasValue sdc4:XdCountType ;
+    ] .
+
+sdc4:IsActiveShape
+    a sh:NodeShape ;
+    sh:targetNode sdc4:mc-em07154ct1v3b00l34nv4lu3x ;
+    sh:property [
+        sh:path rdfs:label ;
+        sh:hasValue "Is Active" ;
+    ] ;
+    sh:property [
+        sh:path sdc4-meta:isConstrainedByRmComponent ;
+        sh:hasValue sdc4:XdBooleanType ;
+    ] .

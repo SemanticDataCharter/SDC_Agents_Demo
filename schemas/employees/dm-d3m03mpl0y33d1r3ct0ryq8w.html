@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SDC4 Schema: EmployeeDirectory</title>
+  <style>
+    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; max-width: 960px; margin: 2rem auto; padding: 0 1rem; color: #1e3a5f; }
+    h1 { border-bottom: 3px solid #2dd4bf; padding-bottom: 0.5rem; }
+    h2 { color: #2dd4bf; margin-top: 2rem; }
+    table { width: 100%; border-collapse: collapse; margin: 1rem 0; }
+    th, td { border: 1px solid #ddd; padding: 0.5rem 0.75rem; text-align: left; }
+    th { background: #1e3a5f; color: white; }
+    tr:nth-child(even) { background: #f8f9fa; }
+    .badge { display: inline-block; padding: 0.15rem 0.5rem; border-radius: 4px; font-size: 0.85rem; font-weight: 600; }
+    .badge-string { background: #dbeafe; color: #1e40af; }
+    .badge-quantity { background: #fef3c7; color: #92400e; }
+    .badge-temporal { background: #d1fae5; color: #065f46; }
+    .badge-count { background: #fce7f3; color: #9d174d; }
+    .badge-boolean { background: #f3e8ff; color: #6b21a8; }
+    .badge-cluster { background: #ede9fe; color: #5b21b6; }
+    .meta { background: #f0f9ff; border-left: 4px solid #2dd4bf; padding: 1rem; margin: 1rem 0; }
+    code { background: #f1f5f9; padding: 0.1rem 0.3rem; border-radius: 3px; font-size: 0.9rem; }
+  </style>
+</head>
+<body>
+  <h1>EmployeeDirectory</h1>
+
+  <div class="meta">
+    <strong>ct_id:</strong> <code>d3m03mpl0y33d1r3ct0ryq8w</code><br>
+    <strong>Created:</strong> 2025-11-01<br>
+    <strong>Creator:</strong> SDC Agents Demo<br>
+    <strong>Language:</strong> en-US<br>
+    <strong>License:</strong> CC-BY 3.0<br>
+    <strong>Source:</strong> SQLite database (employees table)
+  </div>
+
+  <p>Data model for an employee directory including names, email, hire dates, salary, department assignment, and active status. Sourced from a relational SQL database with foreign key and check constraints.</p>
+
+  <h2>Components</h2>
+
+  <table>
+    <thead>
+      <tr><th>Label</th><th>RM Type</th><th>ct_id</th><th>Description</th></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>First Name</td>
+        <td><span class="badge badge-string">XdString</span></td>
+        <td><code>em01f1rstn4m3str1ngv4lu3x</code></td>
+        <td>Employee first name. NOT NULL constraint from SQL schema.</td>
+      </tr>
+      <tr>
+        <td>Last Name</td>
+        <td><span class="badge badge-string">XdString</span></td>
+        <td><code>em02l4stn4m3str1ngv4lu3xz</code></td>
+        <td>Employee last name. NOT NULL constraint from SQL schema.</td>
+      </tr>
+      <tr>
+        <td>Email</td>
+        <td><span class="badge badge-string">XdString</span></td>
+        <td><code>em033m41lstr1ngv4lu3xyzab</code></td>
+        <td>Employee email address. UNIQUE and NOT NULL constraints from SQL schema.</td>
+      </tr>
+      <tr>
+        <td>Hire Date</td>
+        <td><span class="badge badge-temporal">XdTemporal</span></td>
+        <td><code>em04h1r3d4t3t3mp0r4lv4lu</code></td>
+        <td>Date the employee was hired. NOT NULL constraint from SQL schema.</td>
+      </tr>
+      <tr>
+        <td>Salary</td>
+        <td><span class="badge badge-quantity">XdQuantity</span></td>
+        <td><code>em05s4l4ryqu4nt1tyv4lu3xz</code></td>
+        <td>Employee annual salary in USD. CHECK constraint: salary >= 30000.</td>
+      </tr>
+      <tr>
+        <td>Department ID</td>
+        <td><span class="badge badge-count">XdCount</span></td>
+        <td><code>em06d3pt1dc0untv4lu3xyzab</code></td>
+        <td>Foreign key reference to departments table. FK constraint: departments.id.</td>
+      </tr>
+      <tr>
+        <td>Is Active</td>
+        <td><span class="badge badge-boolean">XdBoolean</span></td>
+        <td><code>em07154ct1v3b00l34nv4lu3x</code></td>
+        <td>Whether the employee is currently active. CHECK constraint: IN (0, 1). DEFAULT 1.</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h2>Cluster Structure</h2>
+
+  <table>
+    <thead>
+      <tr><th>Cluster</th><th>RM Type</th><th>ct_id</th><th>Members</th></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>EmployeeDirectory Data Cluster</td>
+        <td><span class="badge badge-cluster">Cluster</span></td>
+        <td><code>em00clust3r3mpl0y33d1r3ct</code></td>
+        <td>First Name, Last Name, Email, Hire Date, Salary, Department ID, Is Active</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h2>Schema Files</h2>
+  <ul>
+    <li><code>dm-d3m03mpl0y33d1r3ct0ryq8w.xsd</code> — XML Schema Definition</li>
+    <li><code>dm-d3m03mpl0y33d1r3ct0ryq8w.ttl</code> — RDF/Turtle triples</li>
+    <li><code>dm-d3m03mpl0y33d1r3ct0ryq8w.jsonld</code> — JSON-LD semantic description</li>
+    <li><code>dm-d3m03mpl0y33d1r3ct0ryq8w_shacl.ttl</code> — SHACL constraints</li>
+    <li><code>dm-d3m03mpl0y33d1r3ct0ryq8w.gql</code> — GQL CREATE statements</li>
+  </ul>
+
+  <footer style="margin-top: 3rem; padding-top: 1rem; border-top: 1px solid #ddd; color: #666; font-size: 0.85rem;">
+    Generated by SDC Agents Demo &mdash; <a href="https://semanticdatacharter.com">Semantic Data Charter</a>
+  </footer>
+</body>
+</html>

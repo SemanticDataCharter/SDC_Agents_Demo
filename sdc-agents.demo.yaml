@@ -22,12 +22,16 @@ datasources:
   lab_results:
     type: csv
     path: "data/lab_results.csv"
+    metadata_path: "data/lab_results.meta.json"
   sensor_readings:
     type: csv
     path: "data/sensor_readings.csv"
   purchase_orders:
     type: csv
     path: "data/purchase_orders.csv"
+  employees:
+    type: sql
+    connection_string: "sqlite+aiosqlite:///data/employees.db"
 
 output:
   directory: "output"

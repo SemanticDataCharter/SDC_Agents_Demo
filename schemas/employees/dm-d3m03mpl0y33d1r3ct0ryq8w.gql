@@ -1,0 +1,88 @@
+// GQL CREATE statements for EmployeeDirectory data model
+// Load into a property graph database (Neo4j, Amazon Neptune, etc.)
+
+// Data Model node
+CREATE (dm:DataModel {
+  ct_id: "d3m03mpl0y33d1r3ct0ryq8w",
+  label: "EmployeeDirectory",
+  creator: "SDC Agents Demo",
+  subject: "Employee directory with department structure",
+  language: "en-US",
+  date: "2025-11-01"
+})
+
+// Cluster node
+CREATE (cluster:Cluster {
+  ct_id: "em00clust3r3mpl0y33d1r3ct",
+  label: "EmployeeDirectory Data Cluster",
+  rm_type: "ClusterType"
+})
+
+// Component nodes
+CREATE (first_name:Component {
+  ct_id: "em01f1rstn4m3str1ngv4lu3x",
+  label: "First Name",
+  rm_type: "XdStringType",
+  description: "Employee first name."
+})
+
+CREATE (last_name:Component {
+  ct_id: "em02l4stn4m3str1ngv4lu3xz",
+  label: "Last Name",
+  rm_type: "XdStringType",
+  description: "Employee last name."
+})
+
+CREATE (email:Component {
+  ct_id: "em033m41lstr1ngv4lu3xyzab",
+  label: "Email",
+  rm_type: "XdStringType",
+  description: "Employee email address."
+})
+
+CREATE (hire_date:Component {
+  ct_id: "em04h1r3d4t3t3mp0r4lv4lu",
+  label: "Hire Date",
+  rm_type: "XdTemporalType",
+  description: "Date the employee was hired."
+})
+
+CREATE (salary:Component {
+  ct_id: "em05s4l4ryqu4nt1tyv4lu3xz",
+  label: "Salary",
+  rm_type: "XdQuantityType",
+  description: "Employee annual salary in USD."
+})
+
+CREATE (dept_id:Component {
+  ct_id: "em06d3pt1dc0untv4lu3xyzab",
+  label: "Department ID",
+  rm_type: "XdCountType",
+  description: "Foreign key reference to departments table."
+})
+
+CREATE (is_active:Component {
+  ct_id: "em07154ct1v3b00l34nv4lu3x",
+  label: "Is Active",
+  rm_type: "XdBooleanType",
+  description: "Whether the employee is currently active."
+})
+
+// Relationships
+CREATE (dm)-[:HAS_CLUSTER]->(cluster)
+CREATE (cluster)-[:HAS_COMPONENT]->(first_name)
+CREATE (cluster)-[:HAS_COMPONENT]->(last_name)
+CREATE (cluster)-[:HAS_COMPONENT]->(email)
+CREATE (cluster)-[:HAS_COMPONENT]->(hire_date)
+CREATE (cluster)-[:HAS_COMPONENT]->(salary)
+CREATE (cluster)-[:HAS_COMPONENT]->(dept_id)
+CREATE (cluster)-[:HAS_COMPONENT]->(is_active)
+
+// RM type constraint edges
+CREATE (first_name)-[:CONSTRAINED_BY {rm_component: "XdStringType"}]->(first_name)
+CREATE (last_name)-[:CONSTRAINED_BY {rm_component: "XdStringType"}]->(last_name)
+CREATE (email)-[:CONSTRAINED_BY {rm_component: "XdStringType"}]->(email)
+CREATE (hire_date)-[:CONSTRAINED_BY {rm_component: "XdTemporalType"}]->(hire_date)
+CREATE (salary)-[:CONSTRAINED_BY {rm_component: "XdQuantityType"}]->(salary)
+CREATE (dept_id)-[:CONSTRAINED_BY {rm_component: "XdCountType"}]->(dept_id)
+CREATE (is_active)-[:CONSTRAINED_BY {rm_component: "XdBooleanType"}]->(is_active)

@@ -1,0 +1,463 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  SDC4 Data Model: EmployeeDirectory
+  Pre-baked schema for SDC Agents Demo (self-contained mode).
+  Generated from: data/employees.db (employees table)
+-->
+<xsd:schema
+  xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+  xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
+  xmlns:vc="http://www.w3.org/2007/XMLSchema-versioning"
+  xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+  xmlns:dc="http://purl.org/dc/elements/1.1/"
+  xmlns:sdc4="https://semanticdatacharter.com/ns/sdc4/"
+  xmlns:sdc4-meta="https://semanticdatacharter.com/ontology/sdc4-meta/"
+  targetNamespace="https://semanticdatacharter.com/ns/sdc4/"
+  vc:minVersion="1.1">
+
+  <xsd:annotation>
+    <xsd:appinfo>
+      <rdf:RDF>
+        <rdf:Description rdf:about="dm-d3m03mpl0y33d1r3ct0ryq8w">
+          <dc:title>EmployeeDirectory</dc:title>
+          <dc:creator>SDC Agents Demo</dc:creator>
+          <dc:subject>Employee directory with department structure</dc:subject>
+          <dc:rights>CC-BY http://creativecommons.org/licenses/by/3.0/</dc:rights>
+          <dc:relation>None</dc:relation>
+          <dc:coverage>Universal</dc:coverage>
+          <dc:type>SDC Data Model (DM)</dc:type>
+          <dc:identifier>dm-d3m03mpl0y33d1r3ct0ryq8w</dc:identifier>
+          <dc:description>Data model for an employee directory including names, email, hire dates, salary, department assignment, and active status. Sourced from a relational SQL database with foreign key and check constraints.</dc:description>
+          <dc:publisher>Axius SDC</dc:publisher>
+          <dc:date>2025-11-01</dc:date>
+          <dc:format>text/xml</dc:format>
+          <dc:language>en-US</dc:language>
+        </rdf:Description>
+      </rdf:RDF>
+    </xsd:appinfo>
+  </xsd:annotation>
+
+  <xsd:include schemaLocation="https://semanticdatacharter.com/ns/sdc4/sdc4.xsd"/>
+
+  <!-- ================================================================== -->
+  <!-- Component: FirstName (XdString)                                     -->
+  <!-- ================================================================== -->
+  <xsd:element name="ms-em01f1rstn4m3str1ngv4lu3x" substitutionGroup="sdc4:XdAdapter-value" type="sdc4:mc-em01f1rstn4m3str1ngv4lu3x"/>
+
+  <xsd:complexType name="mc-em01f1rstn4m3str1ngv4lu3x" xml:lang="en-US">
+    <xsd:annotation>
+      <xsd:appinfo>
+        <rdf:Description rdf:about="sdc4:mc-em01f1rstn4m3str1ngv4lu3x">
+          <rdf:type rdf:resource="sdc4-meta:ModelComponent"/>
+          <sdc4-meta:isConstrainedByRmComponent rdf:resource="sdc4:XdStringType"/>
+          <rdfs:label>First Name</rdfs:label>
+          <rdfs:comment>Employee first name. NOT NULL constraint from SQL schema.</rdfs:comment>
+        </rdf:Description>
+      </xsd:appinfo>
+    </xsd:annotation>
+    <xsd:complexContent>
+      <xsd:restriction base="sdc4:XdStringType">
+        <xsd:sequence>
+          <xsd:element maxOccurs="1" minOccurs="1" name="label" type="xsd:string" fixed="First Name"/>
+          <xsd:element maxOccurs="1" minOccurs="0" name="act" type="xsd:string"/>
+          <xsd:element maxOccurs="1" minOccurs="0" ref="sdc4:ExceptionalValue"/>
+          <xsd:element maxOccurs="1" minOccurs="0" name="vtb" type="xsd:dateTime"/>
+          <xsd:element maxOccurs="1" minOccurs="0" name="vte" type="xsd:dateTime"/>
+          <xsd:element maxOccurs="1" minOccurs="0" name="tr" type="xsd:dateTime"/>
+          <xsd:element maxOccurs="1" minOccurs="0" name="modified" type="xsd:dateTime"/>
+          <xsd:element maxOccurs="1" minOccurs="0" name="latitude" type="sdc4:lattype" nillable="true"/>
+          <xsd:element maxOccurs="1" minOccurs="0" name="longitude" type="sdc4:lontype" nillable="true"/>
+          <xsd:element maxOccurs="1" minOccurs="1" name="xdstring-value">
+            <xsd:simpleType>
+              <xsd:restriction base="xsd:string">
+              </xsd:restriction>
+            </xsd:simpleType>
+          </xsd:element>
+          <xsd:element maxOccurs="1" minOccurs="0" name="xdstring-language" type="xsd:language" default="en-US"/>
+        </xsd:sequence>
+      </xsd:restriction>
+    </xsd:complexContent>
+  </xsd:complexType>
+
+  <!-- ================================================================== -->
+  <!-- Component: LastName (XdString)                                      -->
+  <!-- ================================================================== -->
+  <xsd:element name="ms-em02l4stn4m3str1ngv4lu3xz" substitutionGroup="sdc4:XdAdapter-value" type="sdc4:mc-em02l4stn4m3str1ngv4lu3xz"/>
+
+  <xsd:complexType name="mc-em02l4stn4m3str1ngv4lu3xz" xml:lang="en-US">
+    <xsd:annotation>
+      <xsd:appinfo>
+        <rdf:Description rdf:about="sdc4:mc-em02l4stn4m3str1ngv4lu3xz">
+          <rdf:type rdf:resource="sdc4-meta:ModelComponent"/>
+          <sdc4-meta:isConstrainedByRmComponent rdf:resource="sdc4:XdStringType"/>
+          <rdfs:label>Last Name</rdfs:label>
+          <rdfs:comment>Employee last name. NOT NULL constraint from SQL schema.</rdfs:comment>
+        </rdf:Description>
+      </xsd:appinfo>
+    </xsd:annotation>
+    <xsd:complexContent>
+      <xsd:restriction base="sdc4:XdStringType">
+        <xsd:sequence>
+          <xsd:element maxOccurs="1" minOccurs="1" name="label" type="xsd:string" fixed="Last Name"/>
+          <xsd:element maxOccurs="1" minOccurs="0" name="act" type="xsd:string"/>
+          <xsd:element maxOccurs="1" minOccurs="0" ref="sdc4:ExceptionalValue"/>
+          <xsd:element maxOccurs="1" minOccurs="0" name="vtb" type="xsd:dateTime"/>
+          <xsd:element maxOccurs="1" minOccurs="0" name="vte" type="xsd:dateTime"/>
+          <xsd:element maxOccurs="1" minOccurs="0" name="tr" type="xsd:dateTime"/>
+          <xsd:element maxOccurs="1" minOccurs="0" name="modified" type="xsd:dateTime"/>
+          <xsd:element maxOccurs="1" minOccurs="0" name="latitude" type="sdc4:lattype" nillable="true"/>
+          <xsd:element maxOccurs="1" minOccurs="0" name="longitude" type="sdc4:lontype" nillable="true"/>
+          <xsd:element maxOccurs="1" minOccurs="1" name="xdstring-value">
+            <xsd:simpleType>
+              <xsd:restriction base="xsd:string">
+              </xsd:restriction>
+            </xsd:simpleType>
+          </xsd:element>
+          <xsd:element maxOccurs="1" minOccurs="0" name="xdstring-language" type="xsd:language" default="en-US"/>
+        </xsd:sequence>
+      </xsd:restriction>
+    </xsd:complexContent>
+  </xsd:complexType>
+
+  <!-- ================================================================== -->
+  <!-- Component: Email (XdString)                                         -->
+  <!-- ================================================================== -->
+  <xsd:element name="ms-em033m41lstr1ngv4lu3xyzab" substitutionGroup="sdc4:XdAdapter-value" type="sdc4:mc-em033m41lstr1ngv4lu3xyzab"/>
+
+  <xsd:complexType name="mc-em033m41lstr1ngv4lu3xyzab" xml:lang="en-US">
+    <xsd:annotation>
+      <xsd:appinfo>
+        <rdf:Description rdf:about="sdc4:mc-em033m41lstr1ngv4lu3xyzab">
+          <rdf:type rdf:resource="sdc4-meta:ModelComponent"/>
+          <sdc4-meta:isConstrainedByRmComponent rdf:resource="sdc4:XdStringType"/>
+          <rdfs:label>Email</rdfs:label>
+          <rdfs:comment>Employee email address. UNIQUE and NOT NULL constraints from SQL schema.</rdfs:comment>
+        </rdf:Description>
+      </xsd:appinfo>
+    </xsd:annotation>
+    <xsd:complexContent>
+      <xsd:restriction base="sdc4:XdStringType">
+        <xsd:sequence>
+          <xsd:element maxOccurs="1" minOccurs="1" name="label" type="xsd:string" fixed="Email"/>
+          <xsd:element maxOccurs="1" minOccurs="0" name="act" type="xsd:string"/>
+          <xsd:element maxOccurs="1" minOccurs="0" ref="sdc4:ExceptionalValue"/>
+          <xsd:element maxOccurs="1" minOccurs="0" name="vtb" type="xsd:dateTime"/>
+          <xsd:element maxOccurs="1" minOccurs="0" name="vte" type="xsd:dateTime"/>
+          <xsd:element maxOccurs="1" minOccurs="0" name="tr" type="xsd:dateTime"/>
+          <xsd:element maxOccurs="1" minOccurs="0" name="modified" type="xsd:dateTime"/>
+          <xsd:element maxOccurs="1" minOccurs="0" name="latitude" type="sdc4:lattype" nillable="true"/>
+          <xsd:element maxOccurs="1" minOccurs="0" name="longitude" type="sdc4:lontype" nillable="true"/>
+          <xsd:element maxOccurs="1" minOccurs="1" name="xdstring-value">
+            <xsd:simpleType>
+              <xsd:restriction base="xsd:string">
+              </xsd:restriction>
+            </xsd:simpleType>
+          </xsd:element>
+          <xsd:element maxOccurs="1" minOccurs="0" name="xdstring-language" type="xsd:language" default="en-US"/>
+        </xsd:sequence>
+      </xsd:restriction>
+    </xsd:complexContent>
+  </xsd:complexType>
+
+  <!-- ================================================================== -->
+  <!-- Component: HireDate (XdTemporal)                                    -->
+  <!-- ================================================================== -->
+  <xsd:element name="ms-em04h1r3d4t3t3mp0r4lv4lu" substitutionGroup="sdc4:XdAdapter-value" type="sdc4:mc-em04h1r3d4t3t3mp0r4lv4lu"/>
+
+  <xsd:complexType name="mc-em04h1r3d4t3t3mp0r4lv4lu" xml:lang="en-US">
+    <xsd:annotation>
+      <xsd:appinfo>
+        <rdf:Description rdf:about="sdc4:mc-em04h1r3d4t3t3mp0r4lv4lu">
+          <rdf:type rdf:resource="sdc4-meta:ModelComponent"/>
+          <sdc4-meta:isConstrainedByRmComponent rdf:resource="sdc4:XdTemporalType"/>
+          <rdfs:label>Hire Date</rdfs:label>
+          <rdfs:comment>Date the employee was hired. NOT NULL constraint from SQL schema.</rdfs:comment>
+        </rdf:Description>
+      </xsd:appinfo>
+    </xsd:annotation>
+    <xsd:complexContent>
+      <xsd:restriction base="sdc4:XdTemporalType">
+        <xsd:sequence>
+          <xsd:element maxOccurs="1" minOccurs="1" name="label" type="xsd:string" fixed="Hire Date"/>
+          <xsd:element maxOccurs="1" minOccurs="0" name="act" type="xsd:string"/>
+          <xsd:element maxOccurs="1" minOccurs="0" ref="sdc4:ExceptionalValue"/>
+          <xsd:element maxOccurs="1" minOccurs="0" name="vtb" type="xsd:dateTime"/>
+          <xsd:element maxOccurs="1" minOccurs="0" name="vte" type="xsd:dateTime"/>
+          <xsd:element maxOccurs="1" minOccurs="0" name="tr" type="xsd:dateTime"/>
+          <xsd:element maxOccurs="1" minOccurs="0" name="modified" type="xsd:dateTime"/>
+          <xsd:element maxOccurs="1" minOccurs="0" name="latitude" type="sdc4:lattype" nillable="true"/>
+          <xsd:element maxOccurs="1" minOccurs="0" name="longitude" type="sdc4:lontype" nillable="true"/>
+          <xsd:element maxOccurs="unbounded" minOccurs="0" ref="sdc4:ReferenceRange"/>
+          <xsd:element maxOccurs="1" minOccurs="0" name="normal-status" type="xsd:string"/>
+          <xsd:element maxOccurs="1" minOccurs="0" name="magnitude-status" type="sdc4:MagnitudeStatus"/>
+          <xsd:element maxOccurs="1" minOccurs="0" name="accuracy_margin" type="xsd:decimal"/>
+          <xsd:element maxOccurs="1" minOccurs="0" name="precision_digits" type="xsd:nonNegativeInteger"/>
+          <xsd:element maxOccurs="1" minOccurs="0" name="xdtemporal-date" type="xsd:date"/>
+        </xsd:sequence>
+      </xsd:restriction>
+    </xsd:complexContent>
+  </xsd:complexType>
+
+  <!-- ================================================================== -->
+  <!-- Component: Salary (XdQuantity)                                      -->
+  <!-- ================================================================== -->
+  <xsd:element name="ms-em05s4l4ryqu4nt1tyv4lu3xz" substitutionGroup="sdc4:XdAdapter-value" type="sdc4:mc-em05s4l4ryqu4nt1tyv4lu3xz"/>
+
+  <xsd:complexType name="mc-em05s4l4ryqu4nt1tyv4lu3xz" xml:lang="en-US">
+    <xsd:annotation>
+      <xsd:appinfo>
+        <rdf:Description rdf:about="sdc4:mc-em05s4l4ryqu4nt1tyv4lu3xz">
+          <rdf:type rdf:resource="sdc4-meta:ModelComponent"/>
+          <sdc4-meta:isConstrainedByRmComponent rdf:resource="sdc4:XdQuantityType"/>
+          <rdfs:label>Salary</rdfs:label>
+          <rdfs:comment>Employee annual salary in USD. CHECK constraint: salary >= 30000.</rdfs:comment>
+        </rdf:Description>
+      </xsd:appinfo>
+    </xsd:annotation>
+    <xsd:complexContent>
+      <xsd:restriction base="sdc4:XdQuantityType">
+        <xsd:sequence>
+          <xsd:element maxOccurs="1" minOccurs="1" name="label" type="xsd:string" fixed="Salary"/>
+          <xsd:element maxOccurs="1" minOccurs="0" name="act" type="xsd:string"/>
+          <xsd:element maxOccurs="1" minOccurs="0" ref="sdc4:ExceptionalValue"/>
+          <xsd:element maxOccurs="1" minOccurs="0" name="vtb" type="xsd:dateTime"/>
+          <xsd:element maxOccurs="1" minOccurs="0" name="vte" type="xsd:dateTime"/>
+          <xsd:element maxOccurs="1" minOccurs="0" name="tr" type="xsd:dateTime"/>
+          <xsd:element maxOccurs="1" minOccurs="0" name="modified" type="xsd:dateTime"/>
+          <xsd:element maxOccurs="1" minOccurs="0" name="latitude" type="sdc4:lattype" nillable="true"/>
+          <xsd:element maxOccurs="1" minOccurs="0" name="longitude" type="sdc4:lontype" nillable="true"/>
+          <xsd:element maxOccurs="unbounded" minOccurs="0" ref="sdc4:ReferenceRange"/>
+          <xsd:element maxOccurs="1" minOccurs="0" name="normal-status" type="xsd:string"/>
+          <xsd:element maxOccurs="1" minOccurs="0" name="magnitude-status" type="sdc4:MagnitudeStatus"/>
+          <xsd:element maxOccurs="1" minOccurs="0" name="accuracy_margin" type="xsd:decimal"/>
+          <xsd:element maxOccurs="1" minOccurs="0" name="precision_digits" type="xsd:nonNegativeInteger"/>
+          <xsd:element name="xdquantity-value">
+            <xsd:simpleType>
+              <xsd:restriction base="xsd:decimal"/>
+            </xsd:simpleType>
+          </xsd:element>
+          <xsd:element name="xdquantity-units" type="sdc4:mc-em05un1tstr1ngtyp3f0rsal"/>
+        </xsd:sequence>
+      </xsd:restriction>
+    </xsd:complexContent>
+  </xsd:complexType>
+
+  <!-- Units type for Salary -->
+  <xsd:complexType name="mc-em05un1tstr1ngtyp3f0rsal" xml:lang="en-US">
+    <xsd:annotation>
+      <xsd:appinfo>
+        <rdf:Description rdf:about="sdc4:mc-em05un1tstr1ngtyp3f0rsal">
+          <rdf:type rdf:resource="sdc4-meta:ModelComponent"/>
+          <sdc4-meta:isConstrainedByRmComponent rdf:resource="sdc4:XdStringType"/>
+          <rdfs:label>Currency</rdfs:label>
+        </rdf:Description>
+      </xsd:appinfo>
+    </xsd:annotation>
+    <xsd:complexContent>
+      <xsd:restriction base="sdc4:XdStringType">
+        <xsd:sequence>
+          <xsd:element maxOccurs="1" minOccurs="1" name="label" type="xsd:string" fixed="Currency"/>
+          <xsd:element maxOccurs="1" minOccurs="0" name="act" type="xsd:string"/>
+          <xsd:element maxOccurs="1" minOccurs="0" ref="sdc4:ExceptionalValue"/>
+          <xsd:element maxOccurs="1" minOccurs="0" name="vtb" type="xsd:dateTime"/>
+          <xsd:element maxOccurs="1" minOccurs="0" name="vte" type="xsd:dateTime"/>
+          <xsd:element maxOccurs="1" minOccurs="0" name="tr" type="xsd:dateTime"/>
+          <xsd:element maxOccurs="1" minOccurs="0" name="modified" type="xsd:dateTime"/>
+          <xsd:element maxOccurs="1" minOccurs="0" name="latitude" type="sdc4:lattype" nillable="true"/>
+          <xsd:element maxOccurs="1" minOccurs="0" name="longitude" type="sdc4:lontype" nillable="true"/>
+          <xsd:element maxOccurs="1" minOccurs="1" name="xdstring-value">
+            <xsd:simpleType>
+              <xsd:restriction base="xsd:string">
+              </xsd:restriction>
+            </xsd:simpleType>
+          </xsd:element>
+          <xsd:element maxOccurs="1" minOccurs="0" name="xdstring-language" type="xsd:language" default="en-US"/>
+        </xsd:sequence>
+      </xsd:restriction>
+    </xsd:complexContent>
+  </xsd:complexType>
+
+  <!-- ================================================================== -->
+  <!-- Component: DepartmentID (XdCount)                                   -->
+  <!-- ================================================================== -->
+  <xsd:element name="ms-em06d3pt1dc0untv4lu3xyzab" substitutionGroup="sdc4:XdAdapter-value" type="sdc4:mc-em06d3pt1dc0untv4lu3xyzab"/>
+
+  <xsd:complexType name="mc-em06d3pt1dc0untv4lu3xyzab" xml:lang="en-US">
+    <xsd:annotation>
+      <xsd:appinfo>
+        <rdf:Description rdf:about="sdc4:mc-em06d3pt1dc0untv4lu3xyzab">
+          <rdf:type rdf:resource="sdc4-meta:ModelComponent"/>
+          <sdc4-meta:isConstrainedByRmComponent rdf:resource="sdc4:XdCountType"/>
+          <rdfs:label>Department ID</rdfs:label>
+          <rdfs:comment>Foreign key reference to departments table. FK constraint: departments.id.</rdfs:comment>
+        </rdf:Description>
+      </xsd:appinfo>
+    </xsd:annotation>
+    <xsd:complexContent>
+      <xsd:restriction base="sdc4:XdCountType">
+        <xsd:sequence>
+          <xsd:element maxOccurs="1" minOccurs="1" name="label" type="xsd:string" fixed="Department ID"/>
+          <xsd:element maxOccurs="1" minOccurs="0" name="act" type="xsd:string"/>
+          <xsd:element maxOccurs="1" minOccurs="0" ref="sdc4:ExceptionalValue"/>
+          <xsd:element maxOccurs="1" minOccurs="0" name="vtb" type="xsd:dateTime"/>
+          <xsd:element maxOccurs="1" minOccurs="0" name="vte" type="xsd:dateTime"/>
+          <xsd:element maxOccurs="1" minOccurs="0" name="tr" type="xsd:dateTime"/>
+          <xsd:element maxOccurs="1" minOccurs="0" name="modified" type="xsd:dateTime"/>
+          <xsd:element maxOccurs="1" minOccurs="0" name="latitude" type="sdc4:lattype" nillable="true"/>
+          <xsd:element maxOccurs="1" minOccurs="0" name="longitude" type="sdc4:lontype" nillable="true"/>
+          <xsd:element maxOccurs="unbounded" minOccurs="0" ref="sdc4:ReferenceRange"/>
+          <xsd:element maxOccurs="1" minOccurs="0" name="normal-status" type="xsd:string"/>
+          <xsd:element maxOccurs="1" minOccurs="0" name="magnitude-status" type="sdc4:MagnitudeStatus"/>
+          <xsd:element maxOccurs="1" minOccurs="0" name="accuracy_margin" type="xsd:decimal"/>
+          <xsd:element maxOccurs="1" minOccurs="0" name="precision_digits" type="xsd:nonNegativeInteger"/>
+          <xsd:element name="xdcount-value">
+            <xsd:simpleType>
+              <xsd:restriction base="xsd:integer"/>
+            </xsd:simpleType>
+          </xsd:element>
+          <xsd:element name="xdcount-units" type="sdc4:mc-em06un1tstr1ngtyp3f0rdpt"/>
+        </xsd:sequence>
+      </xsd:restriction>
+    </xsd:complexContent>
+  </xsd:complexType>
+
+  <!-- Units type for DepartmentID -->
+  <xsd:complexType name="mc-em06un1tstr1ngtyp3f0rdpt" xml:lang="en-US">
+    <xsd:annotation>
+      <xsd:appinfo>
+        <rdf:Description rdf:about="sdc4:mc-em06un1tstr1ngtyp3f0rdpt">
+          <rdf:type rdf:resource="sdc4-meta:ModelComponent"/>
+          <sdc4-meta:isConstrainedByRmComponent rdf:resource="sdc4:XdStringType"/>
+          <rdfs:label>Department Reference</rdfs:label>
+        </rdf:Description>
+      </xsd:appinfo>
+    </xsd:annotation>
+    <xsd:complexContent>
+      <xsd:restriction base="sdc4:XdStringType">
+        <xsd:sequence>
+          <xsd:element maxOccurs="1" minOccurs="1" name="label" type="xsd:string" fixed="Department Reference"/>
+          <xsd:element maxOccurs="1" minOccurs="0" name="act" type="xsd:string"/>
+          <xsd:element maxOccurs="1" minOccurs="0" ref="sdc4:ExceptionalValue"/>
+          <xsd:element maxOccurs="1" minOccurs="0" name="vtb" type="xsd:dateTime"/>
+          <xsd:element maxOccurs="1" minOccurs="0" name="vte" type="xsd:dateTime"/>
+          <xsd:element maxOccurs="1" minOccurs="0" name="tr" type="xsd:dateTime"/>
+          <xsd:element maxOccurs="1" minOccurs="0" name="modified" type="xsd:dateTime"/>
+          <xsd:element maxOccurs="1" minOccurs="0" name="latitude" type="sdc4:lattype" nillable="true"/>
+          <xsd:element maxOccurs="1" minOccurs="0" name="longitude" type="sdc4:lontype" nillable="true"/>
+          <xsd:element maxOccurs="1" minOccurs="1" name="xdstring-value">
+            <xsd:simpleType>
+              <xsd:restriction base="xsd:string">
+              </xsd:restriction>
+            </xsd:simpleType>
+          </xsd:element>
+          <xsd:element maxOccurs="1" minOccurs="0" name="xdstring-language" type="xsd:language" default="en-US"/>
+        </xsd:sequence>
+      </xsd:restriction>
+    </xsd:complexContent>
+  </xsd:complexType>
+
+  <!-- ================================================================== -->
+  <!-- Component: IsActive (XdBoolean)                                     -->
+  <!-- ================================================================== -->
+  <xsd:element name="ms-em07154ct1v3b00l34nv4lu3x" substitutionGroup="sdc4:XdAdapter-value" type="sdc4:mc-em07154ct1v3b00l34nv4lu3x"/>
+
+  <xsd:complexType name="mc-em07154ct1v3b00l34nv4lu3x" xml:lang="en-US">
+    <xsd:annotation>
+      <xsd:appinfo>
+        <rdf:Description rdf:about="sdc4:mc-em07154ct1v3b00l34nv4lu3x">
+          <rdf:type rdf:resource="sdc4-meta:ModelComponent"/>
+          <sdc4-meta:isConstrainedByRmComponent rdf:resource="sdc4:XdBooleanType"/>
+          <rdfs:label>Is Active</rdfs:label>
+          <rdfs:comment>Whether the employee is currently active. CHECK constraint: IN (0, 1). DEFAULT 1.</rdfs:comment>
+        </rdf:Description>
+      </xsd:appinfo>
+    </xsd:annotation>
+    <xsd:complexContent>
+      <xsd:restriction base="sdc4:XdBooleanType">
+        <xsd:sequence>
+          <xsd:element maxOccurs="1" minOccurs="1" name="label" type="xsd:string" fixed="Is Active"/>
+          <xsd:element maxOccurs="1" minOccurs="0" name="act" type="xsd:string"/>
+          <xsd:element maxOccurs="1" minOccurs="0" ref="sdc4:ExceptionalValue"/>
+          <xsd:element maxOccurs="1" minOccurs="0" name="vtb" type="xsd:dateTime"/>
+          <xsd:element maxOccurs="1" minOccurs="0" name="vte" type="xsd:dateTime"/>
+          <xsd:element maxOccurs="1" minOccurs="0" name="tr" type="xsd:dateTime"/>
+          <xsd:element maxOccurs="1" minOccurs="0" name="modified" type="xsd:dateTime"/>
+          <xsd:element maxOccurs="1" minOccurs="0" name="latitude" type="sdc4:lattype" nillable="true"/>
+          <xsd:element maxOccurs="1" minOccurs="0" name="longitude" type="sdc4:lontype" nillable="true"/>
+          <xsd:element maxOccurs="1" minOccurs="1" name="xdboolean-value" type="xsd:boolean"/>
+          <xsd:element maxOccurs="1" minOccurs="0" name="xdboolean-true-value" type="xsd:string"/>
+          <xsd:element maxOccurs="1" minOccurs="0" name="xdboolean-false-value" type="xsd:string"/>
+        </xsd:sequence>
+      </xsd:restriction>
+    </xsd:complexContent>
+  </xsd:complexType>
+
+  <!-- ================================================================== -->
+  <!-- Cluster: EmployeeDirectory Data Cluster                             -->
+  <!-- ================================================================== -->
+  <xsd:element name="ms-em00clust3r3mpl0y33d1r3ct" substitutionGroup="sdc4:Item" type="sdc4:mc-em00clust3r3mpl0y33d1r3ct"/>
+
+  <xsd:complexType name="mc-em00clust3r3mpl0y33d1r3ct" xml:lang="en-US">
+    <xsd:annotation>
+      <xsd:appinfo>
+        <rdf:Description rdf:about="sdc4:mc-em00clust3r3mpl0y33d1r3ct">
+          <rdf:type rdf:resource="sdc4-meta:ModelComponent"/>
+          <sdc4-meta:isConstrainedByRmComponent rdf:resource="sdc4:ClusterType"/>
+          <rdfs:label>EmployeeDirectory Data Cluster</rdfs:label>
+        </rdf:Description>
+      </xsd:appinfo>
+    </xsd:annotation>
+    <xsd:complexContent>
+      <xsd:restriction base="sdc4:ClusterType">
+        <xsd:sequence>
+          <xsd:element maxOccurs="1" minOccurs="1" name="label" type="xsd:string" fixed="EmployeeDirectory Data Cluster"/>
+          <xsd:element maxOccurs="1" minOccurs="0" ref="sdc4:ms-em01f1rstn4m3str1ngv4lu3x"/>
+          <xsd:element maxOccurs="1" minOccurs="0" ref="sdc4:ms-em02l4stn4m3str1ngv4lu3xz"/>
+          <xsd:element maxOccurs="1" minOccurs="0" ref="sdc4:ms-em033m41lstr1ngv4lu3xyzab"/>
+          <xsd:element maxOccurs="1" minOccurs="0" ref="sdc4:ms-em04h1r3d4t3t3mp0r4lv4lu"/>
+          <xsd:element maxOccurs="1" minOccurs="0" ref="sdc4:ms-em05s4l4ryqu4nt1tyv4lu3xz"/>
+          <xsd:element maxOccurs="1" minOccurs="0" ref="sdc4:ms-em06d3pt1dc0untv4lu3xyzab"/>
+          <xsd:element maxOccurs="1" minOccurs="0" ref="sdc4:ms-em07154ct1v3b00l34nv4lu3x"/>
+        </xsd:sequence>
+      </xsd:restriction>
+    </xsd:complexContent>
+  </xsd:complexType>
+
+  <!-- ================================================================== -->
+  <!-- Root Data Model Element                                             -->
+  <!-- ================================================================== -->
+  <xsd:element name="dm-d3m03mpl0y33d1r3ct0ryq8w" substitutionGroup="sdc4:DM" type="sdc4:mc-d3m03mpl0y33d1r3ct0ryq8w"/>
+
+  <xsd:complexType name="mc-d3m03mpl0y33d1r3ct0ryq8w">
+    <xsd:annotation>
+      <xsd:appinfo>
+        <rdf:Description rdf:about="sdc4:mc-d3m03mpl0y33d1r3ct0ryq8w">
+          <rdf:type rdf:resource="sdc4-meta:ModelComponent"/>
+          <sdc4-meta:isConstrainedByRmComponent rdf:resource="sdc4:DMType"/>
+          <rdfs:label>EmployeeDirectory</rdfs:label>
+        </rdf:Description>
+      </xsd:appinfo>
+    </xsd:annotation>
+    <xsd:complexContent>
+      <xsd:restriction base="sdc4:DMType">
+        <xsd:sequence>
+          <xsd:element maxOccurs="1" minOccurs="1" name="dm-label" type="xsd:string" fixed="EmployeeDirectory"/>
+          <xsd:element maxOccurs="1" minOccurs="1" name="dm-language" type="xsd:language" fixed="en-US"/>
+          <xsd:element maxOccurs="1" minOccurs="1" name="dm-encoding" type="xsd:string" fixed="utf-8"/>
+          <xsd:element maxOccurs="1" minOccurs="0" name="creation_timestamp" type="xsd:dateTime"/>
+          <xsd:element maxOccurs="1" minOccurs="0" name="instance_id" type="xsd:string"/>
+          <xsd:element maxOccurs="1" minOccurs="0" name="instance_version" type="xsd:string"/>
+          <xsd:element maxOccurs="1" minOccurs="0" name="current-state" type="xsd:string" default=""/>
+          <xsd:element maxOccurs="1" minOccurs="1" ref="sdc4:ms-em00clust3r3mpl0y33d1r3ct"/>
+          <xsd:element maxOccurs="1" minOccurs="0" name="subject" type="sdc4:PartyType"/>
+          <xsd:element maxOccurs="unbounded" minOccurs="0" name="provider" type="sdc4:PartyType"/>
+          <xsd:element maxOccurs="unbounded" minOccurs="0" ref="sdc4:Participation"/>
+          <xsd:element maxOccurs="1" minOccurs="0" name="protocol" type="sdc4:XdStringType"/>
+          <xsd:element maxOccurs="1" minOccurs="0" name="workflow" type="sdc4:XdLinkType"/>
+          <xsd:element maxOccurs="1" minOccurs="0" name="acs" type="sdc4:XdLinkType"/>
+        </xsd:sequence>
+      </xsd:restriction>
+    </xsd:complexContent>
+  </xsd:complexType>
+
+</xsd:schema>

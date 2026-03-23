@@ -1,13 +1,13 @@
 #!/usr/bin/env python3
 """
-SDC Agents Demo — From CSV to Validated Knowledge Graph
+SDC Agents Demo — From Raw Data to Validated Knowledge Graph
 
 Usage:
-    python demo.py [--dataset lab_results|sensor_readings|purchase_orders]
+    python demo.py [--dataset lab_results|sensor_readings|purchase_orders|employees]
                    [--mode self-contained|live]
                    [--skip-graphdb]
 
-Requires: pip install sdc-agents sdcvalidator
+Requires: pip install -r requirements.txt
 """
 from __future__ import annotations
 
@@ -16,6 +16,7 @@ import asyncio
 import csv
 import json
 import shutil
+import sqlite3
 import sys
 import uuid
 from datetime import datetime, timezone
@@ -25,7 +26,7 @@ from xml.etree import ElementTree as ET
 # ---------------------------------------------------------------------------
 # Constants
 # ---------------------------------------------------------------------------
-DATASETS = ("lab_results", "sensor_readings", "purchase_orders")
+DATASETS = ("lab_results", "sensor_readings", "purchase_orders", "employees")
 MODES = ("self-contained", "live")
 
 SDC4_NS = "https://semanticdatacharter.com/ns/sdc4/"
@@ -39,20 +40,37 @@ DATASET_META = {
         "cluster_ct_id": "lr00clust3rl4br3sultsd4t",
         "cluster_label": "LabResults Data Cluster",
         "label": "LabResults",
+        "source_type": "csv",
     },
     "sensor_readings": {
         "dm_ct_id": "d3m0s3ns0rr34d1ngsx8m5n3q",
         "cluster_ct_id": "sr00clust3rs3ns0rr34d1ngs",
         "cluster_label": "SensorReadings Data Cluster",
         "label": "SensorReadings",
+        "source_type": "csv",
     },
     "purchase_orders": {
         "dm_ct_id": "d3m0purch4s30rd3rsx6j8r2t",
         "cluster_ct_id": "po00clust3rpurch4s30rd3rs",
         "cluster_label": "PurchaseOrders Data Cluster",
         "label": "PurchaseOrders",
+        "source_type": "csv",
+    },
+    "employees": {
+        "dm_ct_id": "d3m03mpl0y33d1r3ct0ryq8w",
+        "cluster_ct_id": "em00clust3r3mpl0y33d1r3ct",
+        "cluster_label": "EmployeeDirectory Data Cluster",
+        "label": "EmployeeDirectory",
+        "source_type": "sql",
+        "sql_table": "employees",
     },
 }
+
+# The 13 standard fields from IntrospectToolset._make_column
+ENRICHMENT_FIELDS = (
+    "description", "enumeration", "units", "nullable", "constraints",
+    "range_values", "relationships", "business_rules", "examples", "metadata",
+)
 
 # ---------------------------------------------------------------------------
 # Helpers
@@ -76,14 +94,122 @@ def _fail(msg: str) -> None:
     print(f"  [!!] {msg}", file=sys.stderr)
 
 
+def _field_populated(col: dict, field: str) -> bool:
+    """Return True if a column's enrichment field has meaningful content."""
+    val = col.get(field)
+    if val is None:
+        return False
+    if isinstance(val, str) and not val.strip():
+        return False
+    if isinstance(val, dict) and not val:
+        return False
+    if isinstance(val, list) and not val:
+        return False
+    if isinstance(val, bool):
+        return True  # nullable=False is meaningful
+    return True
+
+
 # ---------------------------------------------------------------------------
-# Step 1 — Introspect CSV
+# Step 1 — Introspect Data Source
 # ---------------------------------------------------------------------------
 
 def step_introspect(dataset: str) -> dict:
-    """Read the CSV and summarise columns with inferred types."""
-    _banner(1, "Introspect CSV")
+    """Introspect the data source using IntrospectToolset."""
+    _banner(1, "Introspect Data Source")
 
+    meta = DATASET_META[dataset]
+    source_type = meta["source_type"]
+
+    # Try IntrospectToolset first
+    columns = _introspect_with_toolset(dataset, source_type)
+
+    if columns is not None:
+        _ok(f"IntrospectToolset returned {len(columns)} columns ({source_type})")
+    else:
+        _info("IntrospectToolset unavailable, falling back to built-in introspection")
+        columns = _introspect_fallback(dataset, source_type)
+
+    # Load row data for XML generation
+    rows = _load_rows(dataset, source_type)
+
+    # Display primary table
+    print()
+    print(f"  {'Column':<20} {'Type':<14} {'Nullable':<10} {'Samples'}")
+    print(f"  {'-'*20} {'-'*14} {'-'*10} {'-'*30}")
+    for c in columns:
+        nullable = str(c.get("nullable", "")) if c.get("nullable") is not None else ""
+        samples_list = c.get("sample_values", [])
+        samples = ", ".join(str(s) for s in samples_list[:3])
+        print(f"  {c['name']:<20} {c.get('data_type', 'string'):<14} {nullable:<10} {samples}")
+
+    # Display enrichment details
+    print()
+    print("  Enrichment details:")
+    for c in columns:
+        populated = [f for f in ENRICHMENT_FIELDS if _field_populated(c, f)]
+        if populated:
+            markers = "  ".join(f"[+] {f}" for f in populated)
+            print(f"    {c['name']}: {markers}")
+
+    return {"rows": rows, "columns": columns, "row_count": len(rows)}
+
+
+def _introspect_with_toolset(dataset: str, source_type: str) -> list[dict] | None:
+    """Try to use IntrospectToolset for introspection. Returns None on failure."""
+    try:
+        import os
+        from sdc_agents.common.config import load_config
+        from sdc_agents.toolsets.introspect import IntrospectToolset
+
+        # Provide a dummy API key if not set (not needed for local introspection)
+        os.environ.setdefault("SDC_API_KEY", "unused-for-local-introspection")
+        config = load_config("sdc-agents.demo.yaml")
+
+        async def _run():
+            toolset = IntrospectToolset(config)
+            try:
+                if source_type == "csv":
+                    result = await toolset.introspect_csv(dataset)
+                    return result["columns"]
+                elif source_type == "sql":
+                    meta = DATASET_META[dataset]
+                    result = await toolset.introspect_sql_schema(
+                        dataset, table_name=meta.get("sql_table"),
+                    )
+                    # introspect_sql_schema returns tables list; get the right one
+                    for table in result.get("tables", []):
+                        if table["table"] == meta.get("sql_table"):
+                            return table["columns"]
+                    # If single table, return first
+                    if result.get("tables"):
+                        return result["tables"][0]["columns"]
+                    return None
+                else:
+                    return None
+            finally:
+                await toolset.close()
+
+        return asyncio.run(_run())
+
+    except ImportError:
+        return None
+    except Exception as e:
+        _info(f"IntrospectToolset error: {e}")
+        return None
+
+
+def _introspect_fallback(dataset: str, source_type: str) -> list[dict]:
+    """Fallback introspection when IntrospectToolset is not available."""
+    if source_type == "csv":
+        return _introspect_csv_fallback(dataset)
+    elif source_type == "sql":
+        return _introspect_sql_fallback(dataset)
+    return []
+
+
+def _introspect_csv_fallback(dataset: str) -> list[dict]:
+    """Read CSV and infer types using built-in logic."""
     csv_path = Path("data") / f"{dataset}.csv"
     if not csv_path.exists():
         _fail(f"CSV not found: {csv_path}")
@@ -99,20 +225,74 @@ def step_introspect(dataset: str) -> dict:
         inferred = _infer_type(values)
         columns.append({
             "name": col,
-            "inferred_type": inferred,
-            "sample_values": values[:3],
-            "non_null_count": len(values),
+            "data_type": inferred,
+            "sample_values": values[:5],
+            "nullable": any(r[col] == "" for r in rows),
         })
+    return columns
 
-    _ok(f"Read {len(rows)} rows, {len(columns)} columns from {csv_path}")
-    print()
-    print(f"  {'Column':<20} {'Inferred Type':<14} {'Samples'}")
-    print(f"  {'-'*20} {'-'*14} {'-'*30}")
-    for c in columns:
-        samples = ", ".join(c["sample_values"][:3])
-        print(f"  {c['name']:<20} {c['inferred_type']:<14} {samples}")
 
-    return {"rows": rows, "columns": columns, "row_count": len(rows)}
+def _introspect_sql_fallback(dataset: str) -> list[dict]:
+    """Read SQLite schema using sqlite3 PRAGMA."""
+    db_path = Path("data") / f"{dataset}.db"
+    meta = DATASET_META[dataset]
+    table = meta.get("sql_table", dataset)
+
+    if not db_path.exists():
+        _fail(f"Database not found: {db_path}")
+        sys.exit(1)
+
+    conn = sqlite3.connect(str(db_path))
+    cur = conn.cursor()
+
+    # Get column info
+    cur.execute(f"PRAGMA table_info({table})")
+    pragma_rows = cur.fetchall()
+
+    # Get sample data
+    cur.execute(f"SELECT * FROM {table} LIMIT 5")
+    sample_rows = cur.fetchall()
+
+    # Get foreign keys
+    cur.execute(f"PRAGMA foreign_key_list({table})")
+    fks = {row[3]: f"{row[2]}.{row[4]}" for row in cur.fetchall()}
+
+    columns = []
+    for col_info in pragma_rows:
+        cid, name, col_type, notnull, default_val, pk = col_info
+        samples = [str(row[cid]) for row in sample_rows if row[cid] is not None]
+
+        # Map SQL type to SDC type
+        type_map = {"INTEGER": "integer", "REAL": "decimal", "TEXT": "string"}
+        data_type = type_map.get(col_type.upper(), "string")
+
+        col = {
+            "name": name,
+            "data_type": data_type,
+            "sample_values": samples[:5],
+            "nullable": not bool(notnull),
+            "constraints": {},
+            "relationships": "",
+            "business_rules": "",
+            "metadata": {"sql_type": col_type},
+            "description": "",
+            "enumeration": None,
+            "units": "",
+            "range_values": "",
+            "examples": "",
+        }
+
+        if pk:
+            col["constraints"]["primary_key"] = True
+        if default_val is not None:
+            col["constraints"]["default"] = str(default_val)
+        if name in fks:
+            col["relationships"] = fks[name]
+
+        columns.append(col)
+
+    conn.close()
+    return columns
 
 
 def _infer_type(values: list[str]) -> str:
@@ -120,7 +300,6 @@ def _infer_type(values: list[str]) -> str:
     if not values:
         return "string"
 
-    # Try integer
     try:
         for v in values:
             int(v)
@@ -128,7 +307,6 @@ def _infer_type(values: list[str]) -> str:
     except ValueError:
         pass
 
-    # Try decimal
     try:
         for v in values:
             float(v)
@@ -136,7 +314,6 @@ def _infer_type(values: list[str]) -> str:
     except ValueError:
         pass
 
-    # Try date (YYYY-MM-DD)
     try:
         for v in values:
             datetime.strptime(v, "%Y-%m-%d")
@@ -144,7 +321,6 @@ def _infer_type(values: list[str]) -> str:
     except ValueError:
         pass
 
-    # Try datetime (ISO 8601)
     try:
         for v in values:
             datetime.fromisoformat(v.replace("Z", "+00:00"))
@@ -155,13 +331,72 @@ def _infer_type(values: list[str]) -> str:
     return "string"
 
 
+def _load_rows(dataset: str, source_type: str) -> list[dict]:
+    """Load all rows as list of dicts for XML generation."""
+    if source_type == "csv":
+        csv_path = Path("data") / f"{dataset}.csv"
+        with open(csv_path, newline="") as fh:
+            return list(csv.DictReader(fh))
+    elif source_type == "sql":
+        meta = DATASET_META[dataset]
+        table = meta.get("sql_table", dataset)
+        db_path = Path("data") / f"{dataset}.db"
+        conn = sqlite3.connect(str(db_path))
+        conn.row_factory = sqlite3.Row
+        cur = conn.cursor()
+        cur.execute(f"SELECT * FROM {table}")
+        rows = [dict(row) for row in cur.fetchall()]
+        conn.close()
+        return rows
+    return []
+
+
 # ---------------------------------------------------------------------------
-# Step 2 — Schema Resolution
+# Step 2 — Compare Introspection Output
+# ---------------------------------------------------------------------------
+
+def step_compare_output(introspection: dict, dataset: str) -> None:
+    """Show per-column field population counts and enrichment source."""
+    _banner(2, "Introspection Field Coverage")
+
+    meta = DATASET_META[dataset]
+    source_type = meta["source_type"]
+
+    if source_type == "csv":
+        # Check if sidecar was used
+        sidecar_path = Path("data") / f"{dataset}.meta.json"
+        source_label = f"sidecar ({sidecar_path.name})" if sidecar_path.exists() else "type inference only"
+    elif source_type == "sql":
+        source_label = "SQL catalog (PRAGMA / inspector)"
+    else:
+        source_label = "unknown"
+
+    _info(f"Enrichment source: {source_label}")
+    print()
+
+    # All 13 standard fields
+    all_fields = ("name", "data_type", "sample_values") + ENRICHMENT_FIELDS
+
+    print(f"  {'Column':<20} {'Populated':<14} {'Enriched Fields'}")
+    print(f"  {'-'*20} {'-'*14} {'-'*40}")
+
+    for col in introspection["columns"]:
+        count = sum(1 for f in all_fields if _field_populated(col, f))
+        total = len(all_fields)
+        enriched = [f for f in ENRICHMENT_FIELDS if _field_populated(col, f)]
+        enriched_str = ", ".join(enriched) if enriched else "(none)"
+        print(f"  {col['name']:<20} {count}/{total:<13} {enriched_str}")
+
+    _ok(f"{len(introspection['columns'])} columns analyzed")
+
+
+# ---------------------------------------------------------------------------
+# Step 3 — Schema Resolution
 # ---------------------------------------------------------------------------
 
 def step_schema_resolution(dataset: str, mode: str) -> Path:
     """Copy pre-baked schemas into cache (self-contained) or fetch from API."""
-    _banner(2, "Schema Resolution")
+    _banner(3, "Schema Resolution")
 
     meta = DATASET_META[dataset]
     dm_ct_id = meta["dm_ct_id"]
@@ -226,12 +461,12 @@ def _fetch_live_schema(ct_id: str, cache_dir: Path) -> Path:
 
 
 # ---------------------------------------------------------------------------
-# Step 3 — Mapping
+# Step 4 — Mapping
 # ---------------------------------------------------------------------------
 
 def step_mapping(dataset: str, introspection: dict) -> dict:
     """Load field mappings (pre-baked) and display the mapping table."""
-    _banner(3, "Column-to-Component Mapping")
+    _banner(4, "Column-to-Component Mapping")
 
     mapping_path = SCHEMA_DIR / "field_mappings" / f"{dataset}.json"
     if not mapping_path.exists():
@@ -260,12 +495,12 @@ def step_mapping(dataset: str, introspection: dict) -> dict:
 
 
 # ---------------------------------------------------------------------------
-# Step 4 — Generate XML Instances
+# Step 5 — Generate XML Instances
 # ---------------------------------------------------------------------------
 
 def step_generate(dataset: str, introspection: dict, mapping_data: dict) -> list[Path]:
-    """Generate SDC4 XML instances from CSV rows using the mapping."""
-    _banner(4, "Generate XML Instances")
+    """Generate SDC4 XML instances from data rows using the mapping."""
+    _banner(5, "Generate XML Instances")
 
     output_dir = OUTPUT_DIR / dataset
     output_dir.mkdir(parents=True, exist_ok=True)
@@ -309,7 +544,7 @@ def _build_xml_instance(
     cluster_ct_id: str = "",
     cluster_label: str = "",
 ) -> str:
-    """Build an SDC4 XML instance string for one CSV row."""
+    """Build an SDC4 XML instance string for one data row."""
     ns = SDC4_NS
     timestamp = datetime.now(timezone.utc).isoformat()
     instance_id = str(uuid.uuid4())
@@ -341,19 +576,22 @@ def _build_xml_instance(
         val_elem = m["value_element"]
         rm_type = m["rm_type"]
 
+        # Coerce to string for XML (SQL returns native Python types)
+        str_value = str(value) if value is not None else ""
+
         lines.append(f'    <sdc4:ms-{ct_id}>')
         lines.append(f'      <label>{label}</label>')
 
         if rm_type == "XdString":
-            lines.append(f'      <{val_elem}>{_xml_escape(value)}</{val_elem}>')
+            lines.append(f'      <{val_elem}>{_xml_escape(str_value)}</{val_elem}>')
         elif rm_type in ("XdQuantity", "XdCount"):
-            lines.append(f'      <{val_elem}>{value}</{val_elem}>')
+            lines.append(f'      <{val_elem}>{str_value}</{val_elem}>')
             # Units are required for quantified types
             units_elem = m.get("units_element", "xdquantity-units")
             units_label = m.get("units_label", "Units")
             # Try to get unit value from a source column, else use default
             src_col = m.get("units_source_column")
-            unit_val = row.get(src_col, "") if src_col else ""
+            unit_val = str(row.get(src_col, "")) if src_col else ""
             if not unit_val:
                 unit_val = m.get("units_default_value", "unit")
             lines.append(f'      <{units_elem}>')
@@ -361,7 +599,10 @@ def _build_xml_instance(
             lines.append(f'        <xdstring-value>{_xml_escape(unit_val)}</xdstring-value>')
             lines.append(f'      </{units_elem}>')
         elif rm_type == "XdTemporal":
-            lines.append(f'      <{val_elem}>{value}</{val_elem}>')
+            lines.append(f'      <{val_elem}>{str_value}</{val_elem}>')
+        elif rm_type == "XdBoolean":
+            bool_val = str_value.lower() in ("1", "true", "yes", "t")
+            lines.append(f'      <{val_elem}>{str(bool_val).lower()}</{val_elem}>')
 
         lines.append(f'    </sdc4:ms-{ct_id}>')
 
@@ -383,7 +624,7 @@ def _xml_escape(s: str) -> str:
 
 
 # ---------------------------------------------------------------------------
-# Step 5 — Validate
+# Step 6 — Validate
 # ---------------------------------------------------------------------------
 
 def step_validate(
@@ -393,7 +634,7 @@ def step_validate(
     generated: list[Path],
 ) -> dict:
     """Validate generated XML instances."""
-    _banner(5, "Validate Instances")
+    _banner(6, "Validate Instances")
 
     if mode == "self-contained":
         return _validate_local(xsd_path, generated)
@@ -511,12 +752,12 @@ def _validate_live(generated: list[Path]) -> dict:
 
 
 # ---------------------------------------------------------------------------
-# Step 6 — Load to GraphDB
+# Step 7 — Load to GraphDB
 # ---------------------------------------------------------------------------
 
 def step_load_graphdb(dataset: str) -> None:
     """Load TTL triples into GraphDB."""
-    _banner(6, "Load to GraphDB")
+    _banner(7, "Load to GraphDB")
 
     try:
         import httpx
@@ -585,7 +826,7 @@ def step_load_graphdb(dataset: str) -> None:
 
 
 # ---------------------------------------------------------------------------
-# Step 7 — Summary
+# Step 8 — Summary
 # ---------------------------------------------------------------------------
 
 def step_summary(
@@ -597,12 +838,13 @@ def step_summary(
     skip_graphdb: bool,
 ) -> None:
     """Print final summary."""
-    _banner(7, "Summary")
+    _banner(8, "Summary")
 
     meta = DATASET_META[dataset]
     output_dir = OUTPUT_DIR / dataset
 
     print(f"  Dataset:           {dataset}")
+    print(f"  Source type:       {meta['source_type']}")
     print(f"  Mode:              {mode}")
     print(f"  Data Model:        {meta['label']} (dm-{meta['dm_ct_id']})")
     print(f"  Rows processed:    {introspection['row_count']}")
@@ -643,12 +885,13 @@ def step_summary(
 
 def main() -> None:
     parser = argparse.ArgumentParser(
-        description="SDC Agents Demo — From CSV to Validated Knowledge Graph",
+        description="SDC Agents Demo — From Raw Data to Validated Knowledge Graph",
         formatter_class=argparse.RawDescriptionHelpFormatter,
         epilog="""
 Examples:
   python demo.py --dataset lab_results --mode self-contained --skip-graphdb
   python demo.py --dataset sensor_readings
+  python demo.py --dataset employees --skip-graphdb
   python demo.py --dataset purchase_orders --mode live
         """,
     )
@@ -678,8 +921,9 @@ Examples:
     print(f"  Mode:    {args.mode}")
     print(f"  GraphDB: {'skipped' if args.skip_graphdb else 'enabled'}")
 
-    # Pipeline
+    # Pipeline (8 steps)
     introspection = step_introspect(args.dataset)
+    step_compare_output(introspection, args.dataset)
     xsd_path = step_schema_resolution(args.dataset, args.mode)
     mapping_data = step_mapping(args.dataset, introspection)
     generated = step_generate(args.dataset, introspection, mapping_data)

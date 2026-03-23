@@ -1,20 +1,20 @@
 # SDC Agents Demo
 
-**From a raw CSV to a validated, reasoned knowledge graph in 5 minutes.**
+**From raw data to a validated, reasoned knowledge graph in 5 minutes.**
 
-This demo walks you through the [SDC Agents](https://pypi.org/project/sdc-agents/) and [sdcvalidator](https://pypi.org/project/sdcvalidator/) pipeline: introspect a CSV, map columns to SDC4 schema components, generate XML instances, validate them, and load RDF triples into GraphDB with OWL 2 RL reasoning.
+This demo walks you through the [SDC Agents](https://pypi.org/project/sdc-agents/) and [sdcvalidator](https://pypi.org/project/sdcvalidator/) pipeline: introspect a data source (CSV or SQL), map columns to SDC4 schema components, generate XML instances, validate them, and load RDF triples into GraphDB with OWL 2 RL reasoning.
 
 ## What You'll Get
 
 - SDC4 schema artifacts (XSD, HTML, JSON-LD, SHACL, GQL, RDF)
-- Validated XML instances generated from your CSV data
+- Validated XML instances generated from your data
 - A knowledge graph with OWL 2 RL inference in GraphDB
 - SPARQL queries that demonstrate cross-domain semantic connections
 
 ## Prerequisites
 
 - Python 3.11+
-- [Docker](https://docs.docker.com/engine/install/) or [Podman](https://podman.io/getting-started/installation) (only needed for GraphDB — optional with `--skip-graphdb`)
+- [Docker](https://docs.docker.com/engine/install/) or [Podman](https://podman.io/getting-started/installation) (only needed for GraphDB; optional with `--skip-graphdb`)
 
 ## Quick Start
 
@@ -44,30 +44,34 @@ Open [http://localhost:7200](http://localhost:7200) to explore the knowledge gra
 
 ## Sample Datasets
 
-| Dataset | Domain | Columns | SDC4 Types Used |
-|---|---|---|---|
-| `lab_results` | Healthcare | patient_id, test_name, result_value, units, collection_date, lab_name | XdString, XdQuantity, XdTemporal |
-| `sensor_readings` | IoT | sensor_id, location, temperature, humidity, reading_time, status | XdString, XdQuantity, XdTemporal |
-| `purchase_orders` | Supply Chain | po_number, vendor, item_description, quantity, unit_price, order_date | XdString, XdCount, XdQuantity, XdTemporal |
+| Dataset | Domain | Source | Columns | SDC4 Types Used |
+|---|---|---|---|---|
+| `lab_results` | Healthcare | CSV + sidecar metadata | patient_id, test_name, result_value, units, collection_date, lab_name | XdString, XdQuantity, XdTemporal |
+| `sensor_readings` | IoT | CSV | sensor_id, location, temperature, humidity, reading_time, status | XdString, XdQuantity, XdTemporal |
+| `purchase_orders` | Supply Chain | CSV | po_number, vendor, item_description, quantity, unit_price, order_date | XdString, XdCount, XdQuantity, XdTemporal |
+| `employees` | HR / Relational | SQLite database | first_name, last_name, email, hire_date, salary, dept_id, is_active | XdString, XdTemporal, XdQuantity, XdCount, XdBoolean |
 
 Run any dataset:
 
 ```bash
+python demo.py --dataset lab_results --skip-graphdb
 python demo.py --dataset sensor_readings --skip-graphdb
+python demo.py --dataset employees --skip-graphdb
 python demo.py --dataset purchase_orders --skip-graphdb
 ```
 
 ## Pipeline Steps
 
-The demo executes seven steps:
+The demo executes eight steps:
 
-1. **Introspect** — Read the CSV file, infer column types (string, decimal, date, datetime, integer)
-2. **Schema Resolution** — Copy pre-baked SDC4 schemas into the local cache (self-contained) or fetch from SDCStudio catalog API (live mode)
-3. **Mapping** — Load column-to-component field mappings, display the mapping table
-4. **Generate** — Create SDC4 XML instances from each CSV row using the schema and mappings
-5. **Validate** — Validate instances against the XSD schema using sdcvalidator (structural + semantic checks)
-6. **Load to GraphDB** — Load RDF triples into GraphDB with OWL 2 RL reasoning enabled
-7. **Summary** — Print artifact paths, validation results, and GraphDB URLs
+1. **Introspect** — Read the data source using `IntrospectToolset` (CSV with optional sidecar metadata, or SQL catalog introspection). Falls back to built-in inference if sdc-agents is not installed.
+2. **Compare** — Show per-column field population counts (e.g. "8/13 fields populated") and the enrichment source (sidecar, SQL catalog, or type inference only).
+3. **Schema Resolution** — Copy pre-baked SDC4 schemas into the local cache (self-contained) or fetch from SDCStudio catalog API (live mode).
+4. **Mapping** — Load column-to-component field mappings, display the mapping table.
+5. **Generate** — Create SDC4 XML instances from each data row using the schema and mappings.
+6. **Validate** — Validate instances against the XSD schema using sdcvalidator (structural + semantic checks).
+7. **Load to GraphDB** — Load RDF triples into GraphDB with OWL 2 RL reasoning enabled.
+8. **Summary** — Print artifact paths, validation results, and GraphDB URLs.
 
 ## Modes
 
@@ -98,7 +102,7 @@ After running the pipeline with GraphDB:
 
 ### Example: Cross-Domain Quantity Components
 
-This query finds all components that represent quantities — spanning healthcare (lab results), IoT (sensor readings), and supply chain (purchase orders):
+This query finds all components that represent quantities, spanning healthcare (lab results), IoT (sensor readings), supply chain (purchase orders), and HR (employees):
 
 ```sparql
 PREFIX rdfs:      <http://www.w3.org/2000/01/rdf-schema#>
@@ -118,7 +122,7 @@ WHERE {
 ORDER BY ?dmLabel
 ```
 
-Result: "Result Value" (healthcare), "Temperature"/"Humidity" (IoT), and "Unit Price" (supply chain) share the same semantic type.
+Result: "Result Value" (healthcare), "Temperature"/"Humidity" (IoT), "Unit Price" (supply chain), and "Salary" (HR) share the same semantic type.
 
 ## Project Structure
 
@@ -129,17 +133,21 @@ SDC_Agents_Demo/
   requirements.txt            # Python dependencies
   sdc-agents.demo.yaml        # SDC Agents configuration
   docker-compose.yml          # GraphDB service
-  data/                       # Sample CSV datasets
+  data/                       # Sample datasets
     lab_results.csv
+    lab_results.meta.json     # Sidecar metadata for enrichment
     sensor_readings.csv
     purchase_orders.csv
+    employees.db              # SQLite database
   schemas/                    # Pre-baked SDC4 schema artifacts
     sdc4.xsd                  # Minimal RM schema subset
     field_mappings/            # Column-to-component mappings
     lab_results/               # XSD, XML, TTL, HTML, JSON-LD, SHACL, GQL
     sensor_readings/
     purchase_orders/
+    employees/
   scripts/                    # Helper scripts
+    build_employees_db.py     # Reproducibility script for employees.db
     graphdb-repo-config.ttl   # GraphDB OWL 2 RL repository config
     load_triples.sh           # Standalone triple loading script
   sparql/                     # SPARQL demo queries
@@ -151,7 +159,7 @@ SDC_Agents_Demo/
 
 **sdcvalidator not installed**:
 ```bash
-pip install sdcvalidator>=4.1.0
+pip install sdcvalidator>=4.2.0
 ```
 
 **GraphDB not reachable**:

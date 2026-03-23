@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  SDC4 XML Skeleton: EmployeeDirectory
+  Fill __PLACEHOLDER_*__ markers with actual data values.
+-->
+<sdc4:dm-d3m03mpl0y33d1r3ct0ryq8w
+  xmlns:sdc4="https://semanticdatacharter.com/ns/sdc4/"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="https://semanticdatacharter.com/ns/sdc4/ dm-d3m03mpl0y33d1r3ct0ryq8w.xsd">
+
+  <dm-label>EmployeeDirectory</dm-label>
+  <dm-language>en-US</dm-language>
+  <dm-encoding>utf-8</dm-encoding>
+
+  <sdc4:ms-em00clust3r3mpl0y33d1r3ct>
+    <label>EmployeeDirectory Data Cluster</label>
+
+    <sdc4:ms-em01f1rstn4m3str1ngv4lu3x>
+      <label>First Name</label>
+      <xdstring-value>__PLACEHOLDER_em01f1rstn4m3str1ngv4lu3x__</xdstring-value>
+    </sdc4:ms-em01f1rstn4m3str1ngv4lu3x>
+
+    <sdc4:ms-em02l4stn4m3str1ngv4lu3xz>
+      <label>Last Name</label>
+      <xdstring-value>__PLACEHOLDER_em02l4stn4m3str1ngv4lu3xz__</xdstring-value>
+    </sdc4:ms-em02l4stn4m3str1ngv4lu3xz>
+
+    <sdc4:ms-em033m41lstr1ngv4lu3xyzab>
+      <label>Email</label>
+      <xdstring-value>__PLACEHOLDER_em033m41lstr1ngv4lu3xyzab__</xdstring-value>
+    </sdc4:ms-em033m41lstr1ngv4lu3xyzab>
+
+    <sdc4:ms-em04h1r3d4t3t3mp0r4lv4lu>
+      <label>Hire Date</label>
+      <xdtemporal-date>__PLACEHOLDER_em04h1r3d4t3t3mp0r4lv4lu__</xdtemporal-date>
+    </sdc4:ms-em04h1r3d4t3t3mp0r4lv4lu>
+
+    <sdc4:ms-em05s4l4ryqu4nt1tyv4lu3xz>
+      <label>Salary</label>
+      <xdquantity-value>__PLACEHOLDER_em05s4l4ryqu4nt1tyv4lu3xz__</xdquantity-value>
+      <xdquantity-units>
+        <label>Currency</label>
+        <xdstring-value>__PLACEHOLDER_em05un1tstr1ngtyp3f0rsal__</xdstring-value>
+      </xdquantity-units>
+    </sdc4:ms-em05s4l4ryqu4nt1tyv4lu3xz>
+
+    <sdc4:ms-em06d3pt1dc0untv4lu3xyzab>
+      <label>Department ID</label>
+      <xdcount-value>__PLACEHOLDER_em06d3pt1dc0untv4lu3xyzab__</xdcount-value>
+      <xdcount-units>
+        <label>Department Reference</label>
+        <xdstring-value>__PLACEHOLDER_em06un1tstr1ngtyp3f0rdpt__</xdstring-value>
+      </xdcount-units>
+    </sdc4:ms-em06d3pt1dc0untv4lu3xyzab>
+
+    <sdc4:ms-em07154ct1v3b00l34nv4lu3x>
+      <label>Is Active</label>
+      <xdboolean-value>__PLACEHOLDER_em07154ct1v3b00l34nv4lu3x__</xdboolean-value>
+    </sdc4:ms-em07154ct1v3b00l34nv4lu3x>
+
+  </sdc4:ms-em00clust3r3mpl0y33d1r3ct>
+
+</sdc4:dm-d3m03mpl0y33d1r3ct0ryq8w>

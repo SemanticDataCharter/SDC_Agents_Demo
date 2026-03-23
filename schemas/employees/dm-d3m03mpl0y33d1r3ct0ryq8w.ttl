@@ -1,0 +1,84 @@
+@prefix rdf:       <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs:      <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix owl:       <http://www.w3.org/2002/07/owl#> .
+@prefix xsd:       <http://www.w3.org/2001/XMLSchema#> .
+@prefix dc:        <http://purl.org/dc/elements/1.1/> .
+@prefix sdc4:      <https://semanticdatacharter.com/ns/sdc4/> .
+@prefix sdc4-meta: <https://semanticdatacharter.com/ontology/sdc4-meta/> .
+
+# =============================================================================
+# Data Model: EmployeeDirectory
+# =============================================================================
+
+sdc4:dm-d3m03mpl0y33d1r3ct0ryq8w
+    a sdc4-meta:DataModel ;
+    rdfs:label "EmployeeDirectory" ;
+    dc:title "EmployeeDirectory" ;
+    dc:creator "SDC Agents Demo" ;
+    dc:subject "Employee directory with department structure" ;
+    dc:description "Data model for an employee directory including names, email, hire dates, salary, department assignment, and active status. Sourced from a relational SQL database with foreign key and check constraints." ;
+    dc:date "2025-11-01" ;
+    dc:language "en-US" ;
+    sdc4-meta:hasCluster sdc4:mc-em00clust3r3mpl0y33d1r3ct .
+
+# Cluster
+sdc4:mc-em00clust3r3mpl0y33d1r3ct
+    a sdc4-meta:ModelComponent ;
+    sdc4-meta:isConstrainedByRmComponent sdc4:ClusterType ;
+    rdfs:label "EmployeeDirectory Data Cluster" ;
+    sdc4-meta:hasComponent sdc4:mc-em01f1rstn4m3str1ngv4lu3x ,
+                           sdc4:mc-em02l4stn4m3str1ngv4lu3xz ,
+                           sdc4:mc-em033m41lstr1ngv4lu3xyzab ,
+                           sdc4:mc-em04h1r3d4t3t3mp0r4lv4lu ,
+                           sdc4:mc-em05s4l4ryqu4nt1tyv4lu3xz ,
+                           sdc4:mc-em06d3pt1dc0untv4lu3xyzab ,
+                           sdc4:mc-em07154ct1v3b00l34nv4lu3x .
+
+# First Name (XdString)
+sdc4:mc-em01f1rstn4m3str1ngv4lu3x
+    a sdc4-meta:ModelComponent ;
+    sdc4-meta:isConstrainedByRmComponent sdc4:XdStringType ;
+    rdfs:label "First Name" ;
+    rdfs:comment "Employee first name. NOT NULL constraint from SQL schema." .
+
+# Last Name (XdString)
+sdc4:mc-em02l4stn4m3str1ngv4lu3xz
+    a sdc4-meta:ModelComponent ;
+    sdc4-meta:isConstrainedByRmComponent sdc4:XdStringType ;
+    rdfs:label "Last Name" ;
+    rdfs:comment "Employee last name. NOT NULL constraint from SQL schema." .
+
+# Email (XdString)
+sdc4:mc-em033m41lstr1ngv4lu3xyzab
+    a sdc4-meta:ModelComponent ;
+    sdc4-meta:isConstrainedByRmComponent sdc4:XdStringType ;
+    rdfs:label "Email" ;
+    rdfs:comment "Employee email address. UNIQUE and NOT NULL constraints from SQL schema." .
+
+# Hire Date (XdTemporal)
+sdc4:mc-em04h1r3d4t3t3mp0r4lv4lu
+    a sdc4-meta:ModelComponent ;
+    sdc4-meta:isConstrainedByRmComponent sdc4:XdTemporalType ;
+    rdfs:label "Hire Date" ;
+    rdfs:comment "Date the employee was hired. NOT NULL constraint from SQL schema." .
+
+# Salary (XdQuantity)
+sdc4:mc-em05s4l4ryqu4nt1tyv4lu3xz
+    a sdc4-meta:ModelComponent ;
+    sdc4-meta:isConstrainedByRmComponent sdc4:XdQuantityType ;
+    rdfs:label "Salary" ;
+    rdfs:comment "Employee annual salary in USD. CHECK constraint: salary >= 30000." .
+
+# Department ID (XdCount)
+sdc4:mc-em06d3pt1dc0untv4lu3xyzab
+    a sdc4-meta:ModelComponent ;
+    sdc4-meta:isConstrainedByRmComponent sdc4:XdCountType ;
+    rdfs:label "Department ID" ;
+    rdfs:comment "Foreign key reference to departments table." .
+
+# Is Active (XdBoolean)
+sdc4:mc-em07154ct1v3b00l34nv4lu3x
+    a sdc4-meta:ModelComponent ;
+    sdc4-meta:isConstrainedByRmComponent sdc4:XdBooleanType ;
+    rdfs:label "Is Active" ;
+    rdfs:comment "Whether the employee is currently active. CHECK constraint: IN (0, 1)." .

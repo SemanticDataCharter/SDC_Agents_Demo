@@ -1,0 +1,61 @@
+{
+  "datasource": "employees",
+  "schema_ct_id": "d3m03mpl0y33d1r3ct0ryq8w",
+  "mappings": [
+    {
+      "column_name": "first_name",
+      "component_ct_id": "em01f1rstn4m3str1ngv4lu3x",
+      "component_label": "First Name",
+      "rm_type": "XdString",
+      "value_element": "xdstring-value"
+    },
+    {
+      "column_name": "last_name",
+      "component_ct_id": "em02l4stn4m3str1ngv4lu3xz",
+      "component_label": "Last Name",
+      "rm_type": "XdString",
+      "value_element": "xdstring-value"
+    },
+    {
+      "column_name": "email",
+      "component_ct_id": "em033m41lstr1ngv4lu3xyzab",
+      "component_label": "Email",
+      "rm_type": "XdString",
+      "value_element": "xdstring-value"
+    },
+    {
+      "column_name": "hire_date",
+      "component_ct_id": "em04h1r3d4t3t3mp0r4lv4lu",
+      "component_label": "Hire Date",
+      "rm_type": "XdTemporal",
+      "value_element": "xdtemporal-date"
+    },
+    {
+      "column_name": "salary",
+      "component_ct_id": "em05s4l4ryqu4nt1tyv4lu3xz",
+      "component_label": "Salary",
+      "rm_type": "XdQuantity",
+      "value_element": "xdquantity-value",
+      "units_element": "xdquantity-units",
+      "units_label": "Currency",
+      "units_default_value": "USD"
+    },
+    {
+      "column_name": "dept_id",
+      "component_ct_id": "em06d3pt1dc0untv4lu3xyzab",
+      "component_label": "Department ID",
+      "rm_type": "XdCount",
+      "value_element": "xdcount-value",
+      "units_element": "xdcount-units",
+      "units_label": "Department Reference",
+      "units_default_value": "department"
+    },
+    {
+      "column_name": "is_active",
+      "component_ct_id": "em07154ct1v3b00l34nv4lu3x",
+      "component_label": "Is Active",
+      "rm_type": "XdBoolean",
+      "value_element": "xdboolean-value"
+    }
+  ]
+}

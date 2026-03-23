@@ -1,0 +1,56 @@
+{
+  "columns": {
+    "patient_id": {
+      "description": "Unique patient identifier in the format P-NNNNN.",
+      "business_rules": "Must match pattern P-\\d{5}. Assigned at registration.",
+      "examples": "P-10042, P-10087, P-10123"
+    },
+    "test_name": {
+      "description": "Name of the clinical laboratory test performed.",
+      "value_labels": {
+        "Complete Blood Count": "CBC panel measuring blood cell counts",
+        "Hemoglobin A1c": "Glycated hemoglobin indicating 3-month glucose average",
+        "Glucose Fasting": "Blood glucose after 8+ hour fast",
+        "Lipid Panel": "Cholesterol and triglyceride measurements",
+        "Thyroid Panel": "Thyroid hormone levels (TSH, T3, T4)",
+        "Basic Metabolic Panel": "Electrolytes, kidney function, glucose",
+        "Liver Function Panel": "Liver enzyme and protein levels",
+        "Urinalysis": "Chemical and microscopic urine analysis"
+      },
+      "examples": "Complete Blood Count, Hemoglobin A1c, Glucose Fasting"
+    },
+    "result_value": {
+      "description": "Quantitative result of the laboratory test.",
+      "range_values": "0.01 - 99999.99 (varies by test type)",
+      "business_rules": "Must be a positive decimal. Reference ranges are test-specific."
+    },
+    "units": {
+      "description": "Unit of measure for the test result (e.g. mg/dL, mIU/L).",
+      "value_labels": {
+        "mg/dL": "milligrams per deciliter",
+        "x10^3/uL": "thousands per microliter",
+        "%": "percentage",
+        "mIU/L": "milli-international units per liter",
+        "ng/dL": "nanograms per deciliter",
+        "U/L": "units per liter"
+      },
+      "business_rules": "Must use UCUM-compatible unit notation."
+    },
+    "collection_date": {
+      "description": "Date when the specimen was collected from the patient.",
+      "business_rules": "Must be ISO 8601 date (YYYY-MM-DD). Cannot be in the future.",
+      "examples": "2025-11-03, 2025-11-05, 2025-11-08"
+    },
+    "lab_name": {
+      "description": "Name of the laboratory that performed the test.",
+      "value_labels": {
+        "Quest Diagnostics": "National reference laboratory",
+        "LabCorp": "National clinical laboratory",
+        "BioReference": "Specialty reference laboratory",
+        "Mayo Clinic Labs": "Academic medical center laboratory",
+        "ARUP Laboratories": "University-associated reference lab"
+      },
+      "examples": "Quest Diagnostics, LabCorp, BioReference"
+    }
+  }
+}
